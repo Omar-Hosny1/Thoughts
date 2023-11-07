@@ -1,5 +1,11 @@
 import type { InputProps } from '@chakra-ui/react';
-import { Input as BaseInput } from '@chakra-ui/react';
+import {
+  Input as BaseInput,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+} from '@chakra-ui/react';
+import Image from 'next/image';
 import React from 'react';
 
 import type { RoundedFlatFrom } from '@/utils/types/RoundedFlatFrom';
@@ -9,15 +15,19 @@ type InputStyleVariants = 'outline';
 interface Props extends InputProps {
   roundedFlatFrom: RoundedFlatFrom;
   label: string;
-  isPassword?: boolean;
   styleVariants?: InputStyleVariants;
+  withIcon?: boolean;
+  iconPositon?: 'left' | 'right';
+  iconSrc?: string;
 }
 
 function Input({
   roundedFlatFrom,
   label,
-  isPassword,
+  withIcon,
   styleVariants = 'outline',
+  iconPositon,
+  iconSrc = '',
   ...props
 }: Props) {
   function getStyleVariant() {
@@ -37,16 +47,44 @@ function Input({
     }
   }
 
+  if (withIcon) {
+    return (
+      <InputGroup pos="relative">
+        {iconPositon === 'right' ? (
+          <InputRightElement pointerEvents="none">
+            <Image alt="" src={iconSrc} width={15} height={15} />
+          </InputRightElement>
+        ) : (
+          <InputLeftElement pointerEvents="none">
+            <Image alt="" src={iconSrc} width={15} height={15} />
+          </InputLeftElement>
+        )}
+        <BaseInput
+          {...getStyleVariant()}
+          placeholder={label}
+          w="fit-content"
+          borderTopRightRadius={
+            roundedFlatFrom === 'right' ? 0 : props.borderRadius
+          }
+          borderTopLeftRadius={
+            roundedFlatFrom === 'left' ? 0 : props.borderRadius
+          }
+          {...props}
+        />
+      </InputGroup>
+    );
+  }
+
   return (
     <BaseInput
       {...getStyleVariant()}
       placeholder={label}
       w="fit-content"
-      type={isPassword ? 'password' : undefined}
       borderTopRightRadius={
         roundedFlatFrom === 'right' ? 0 : props.borderRadius
       }
       borderTopLeftRadius={roundedFlatFrom === 'left' ? 0 : props.borderRadius}
+      {...props}
     />
   );
 }
