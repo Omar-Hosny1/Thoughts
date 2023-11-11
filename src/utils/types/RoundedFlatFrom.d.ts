@@ -1,1 +1,1 @@
-export type RoundedFlatFrom = 'right' | 'left';
+export type RoundedFlatFrom = 'right' | 'left' | 'none';

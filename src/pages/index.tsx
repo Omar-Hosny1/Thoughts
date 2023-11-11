@@ -1,12 +1,19 @@
-import { Box, Flex } from '@chakra-ui/react';
-
-import Button from '@/components/base/button';
-import Input from '@/components/base/input';
+import Header from '@/components/common/header';
+import MenusSection from '@/components/home/menus-section';
+import SearchSection from '@/components/home/search-section';
+import ThoughtsSection from '@/components/home/thoughts-section';
+import BaseLayout from '@/components/layouts/base-layout';
 
 const Index = () => {
   return (
     <>
-      <Flex justifyContent="space-between" alignItems="center">
+      <BaseLayout
+        headerContent={<Header />}
+        sectionCenter={<ThoughtsSection />}
+        sectionEnd={<SearchSection />}
+        sectionStart={<MenusSection />}
+      />
+      {/* <Flex justifyContent="space-between" alignItems="center">
         <Button
           iconPosition="left"
           roundedFlatFrom="right"
@@ -66,7 +73,7 @@ const Index = () => {
           iconSrc="/edit.svg"
           iconPositon="left"
         />
-      </Box>
+      </Box> */}
     </>
   );
 };

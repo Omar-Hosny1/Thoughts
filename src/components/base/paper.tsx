@@ -12,9 +12,11 @@ function Paper({ roundedFlatFrom, ...props }: Props) {
   return (
     <Box
       borderTopRightRadius={
-        roundedFlatFrom === 'right' ? 0 : props.borderRadius
+        roundedFlatFrom === 'right' ? 0 : props.borderRadius || props.rounded
       }
-      borderTopLeftRadius={roundedFlatFrom === 'left' ? 0 : props.borderRadius}
+      borderTopLeftRadius={
+        roundedFlatFrom === 'left' ? 0 : props.borderRadius || props.rounded
+      }
       {...props}
     />
   );
