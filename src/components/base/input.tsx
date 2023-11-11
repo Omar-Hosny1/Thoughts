@@ -12,24 +12,18 @@ import type { RoundedFlatFrom } from '@/utils/types/RoundedFlatFrom';
 
 type InputStyleVariants = 'outline';
 
-interface Props extends InputProps {
+interface CoreInputProps extends InputProps {
   roundedFlatFrom: RoundedFlatFrom;
   label: string;
   styleVariants?: InputStyleVariants;
-  withIcon?: boolean;
-  iconPositon?: 'left' | 'right';
-  iconSrc?: string;
 }
 
-function Input({
+function CoreInput({
   roundedFlatFrom,
   label,
-  withIcon,
   styleVariants = 'outline',
-  iconPositon,
-  iconSrc = '',
   ...props
-}: Props) {
+}: CoreInputProps) {
   function getStyleVariant() {
     switch (styleVariants) {
       case 'outline':
@@ -47,34 +41,6 @@ function Input({
     }
   }
 
-  if (withIcon) {
-    return (
-      <InputGroup pos="relative">
-        {iconPositon === 'right' ? (
-          <InputRightElement pointerEvents="none">
-            <Image alt="" src={iconSrc} width={15} height={15} />
-          </InputRightElement>
-        ) : (
-          <InputLeftElement pointerEvents="none">
-            <Image alt="" src={iconSrc} width={15} height={15} />
-          </InputLeftElement>
-        )}
-        <BaseInput
-          {...getStyleVariant()}
-          placeholder={label}
-          w="fit-content"
-          borderTopRightRadius={
-            roundedFlatFrom === 'right' ? 0 : props.borderRadius
-          }
-          borderTopLeftRadius={
-            roundedFlatFrom === 'left' ? 0 : props.borderRadius
-          }
-          {...props}
-        />
-      </InputGroup>
-    );
-  }
-
   return (
     <BaseInput
       {...getStyleVariant()}
@@ -87,6 +53,37 @@ function Input({
       {...props}
     />
   );
+}
+
+interface Props extends CoreInputProps {
+  withIcon?: boolean;
+  iconPositon?: 'left' | 'right';
+  iconSrc?: string;
+}
+
+function Input({ withIcon, iconPositon, iconSrc = '', ...props }: Props) {
+  if (withIcon) {
+    return (
+      <InputGroup>
+        {iconPositon === 'right' ? (
+          <InputRightElement pointerEvents="none">
+            <Image alt="" src={iconSrc} width={20} height={20} />
+          </InputRightElement>
+        ) : (
+          <InputLeftElement
+            pointerEvents="none"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Image alt="" src={iconSrc} width={20} height={20} />
+          </InputLeftElement>
+        )}
+        <CoreInput {...props} />
+      </InputGroup>
+    );
+  }
+
+  return <CoreInput {...props} />;
 }
 
 export default Input;

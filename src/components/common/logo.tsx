@@ -1,7 +1,12 @@
+import { Text } from '@chakra-ui/react';
 import React from 'react';
 
-function Thoghts() {
-  return <div>Thoghts</div>;
+function Thoughts() {
+  return (
+    <Text fontSize="28px" color="secondary">
+      Thoughts.
+    </Text>
+  );
 }
 
-export default Thoghts;
+export default Thoughts;
