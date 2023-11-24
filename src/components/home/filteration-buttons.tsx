@@ -23,7 +23,7 @@ function FilterationButtons() {
           fontSize: 'lg',
         }}
         styleVariants={isDiscoverSelected ? 'base' : 'outline'}
-        onClick={() => onDiscoverSelected}
+        onClick={() => onDiscoverSelected()}
       >
         Discover
       </Button>
@@ -36,7 +36,7 @@ function FilterationButtons() {
           fontSize: 'lg',
         }}
         py="25px"
-        onClick={() => onFollowingSelected}
+        onClick={() => onFollowingSelected()}
         styleVariants={isDiscoverSelected ? 'outline' : 'base'}
       >
         Following

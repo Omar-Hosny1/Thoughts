@@ -11,6 +11,7 @@ interface Props extends BoxProps {
 function Paper({ roundedFlatFrom, ...props }: Props) {
   return (
     <Box
+      rounded="lg"
       borderTopRightRadius={
         roundedFlatFrom === 'right' ? 0 : props.borderRadius || props.rounded
       }

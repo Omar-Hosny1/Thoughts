@@ -18,7 +18,7 @@ function BaseLayout({
 }: Props) {
   return (
     <Grid
-      h="calc(100vh - 20px)"
+      h={{ base: 'calc(100vh - 20px)', md: 'calc(100vh - 40px)' }}
       templateColumns="repeat(8, 1fr)"
       templateRows="repeat(10, 1fr)"
       gap={2}
@@ -35,19 +35,19 @@ function BaseLayout({
         {sectionStart}
       </GridItem>
       <GridItem
-        colSpan={{ base: 7, md: 4 }}
+        colSpan={{ base: 8, md: 6, lg: 4 }}
         rowSpan={10}
-        borderEndColor="secondary"
-        borderStartColor="secondary"
-        borderEndWidth="1px"
-        borderStartWidth="1px"
+        borderEndColor={{ md: 'secondary' }}
+        borderStartColor={{ md: 'secondary' }}
+        borderEndWidth={{ md: '1px' }}
+        borderStartWidth={{ md: '1px' }}
       >
         {sectionCenter}
       </GridItem>
       <GridItem
         rowSpan={10}
         colSpan={2}
-        display={{ base: 'none', md: 'initial' }}
+        display={{ base: 'none', lg: 'initial' }}
       >
         {sectionEnd}
       </GridItem>
