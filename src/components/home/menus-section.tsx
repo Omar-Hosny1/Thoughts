@@ -6,7 +6,7 @@ import Text from '../common/text';
 
 function MenusSection() {
   return (
-    <Flex pe="15px" h="full" flexDir="column" justifyContent="space-between">
+    <Flex pe="10px" h="full" flexDir="column" justifyContent="space-between">
       <Flex flexDir="column" gap="10px">
         <Text lineHeight={1} fontSize="3xl" mb="10px">
           Your Heads up!
@@ -15,12 +15,15 @@ function MenusSection() {
           paddingY="24px"
           roundedFlatFrom="right"
           withIcon
-          icon="/icons/home.png"
+          icon="/icons/home.svg"
           iconPosition="left"
           justifyContent="start"
-          iconSize={24}
+          iconSize={28}
           rounded="15px"
           gap={3}
+          styleText={{
+            fontSize: '17px',
+          }}
         >
           Your Home
         </Button>
@@ -28,12 +31,15 @@ function MenusSection() {
           paddingY="24px"
           roundedFlatFrom="right"
           withIcon
-          icon="/icons/notification.png"
+          icon="/icons/notifications.svg"
           iconPosition="left"
           justifyContent="start"
-          iconSize={24}
+          iconSize={28}
           rounded="15px"
           gap={3}
+          styleText={{
+            fontSize: '17px',
+          }}
         >
           Notifications
         </Button>
@@ -42,11 +48,14 @@ function MenusSection() {
           roundedFlatFrom="right"
           withIcon
           gap={3}
+          styleText={{
+            fontSize: '17px',
+          }}
           rounded="15px"
-          icon="/icons/more.png"
+          icon="/icons/more.svg"
           iconPosition="left"
           justifyContent="start"
-          iconSize={24}
+          iconSize={28}
         >
           Peinding Blogs
         </Button>
@@ -55,11 +64,14 @@ function MenusSection() {
           roundedFlatFrom="right"
           withIcon
           gap={3}
+          styleText={{
+            fontSize: '17px',
+          }}
           rounded="15px"
-          icon="/icons/activity.png"
+          icon="/icons/activity.svg"
           iconPosition="left"
           justifyContent="start"
-          iconSize={24}
+          iconSize={28}
         >
           Your Activity
         </Button>
@@ -68,11 +80,14 @@ function MenusSection() {
           roundedFlatFrom="right"
           withIcon
           gap={3}
+          styleText={{
+            fontSize: '17px',
+          }}
           rounded="15px"
-          icon="/icons/more.png"
+          icon="/icons/more.svg"
           iconPosition="left"
           justifyContent="start"
-          iconSize={24}
+          iconSize={28}
         >
           Most Used Tags
         </Button> */}
@@ -81,11 +96,14 @@ function MenusSection() {
           roundedFlatFrom="right"
           withIcon
           gap={3}
+          styleText={{
+            fontSize: '17px',
+          }}
           rounded="15px"
-          icon="/icons/user.png"
+          icon="/icons/user.svg"
           iconPosition="left"
           justifyContent="start"
-          iconSize={24}
+          iconSize={28}
         >
           Users Statistics
         </Button>
@@ -94,15 +112,15 @@ function MenusSection() {
           roundedFlatFrom="right"
           withIcon
           gap={3}
+          styleText={{
+            fontSize: '17px',
+          }}
           rounded="15px"
-          icon="/icons/edit.png"
+          icon="/icons/edit-dark.svg"
           iconPosition="left"
           justifyContent="start"
           styleVariants="base"
-          styleText={{
-            color: 'primary',
-          }}
-          iconSize={24}
+          iconSize={28}
           color="primary"
         >
           Write Thought
@@ -114,11 +132,14 @@ function MenusSection() {
           roundedFlatFrom="right"
           withIcon
           gap={3}
+          styleText={{
+            fontSize: '17px',
+          }}
           rounded="15px"
-          icon="/icons/settings.png"
+          icon="/icons/settings.svg"
           iconPosition="left"
           justifyContent="start"
-          iconSize={24}
+          iconSize={28}
         >
           Settings
         </Button>
@@ -127,15 +148,15 @@ function MenusSection() {
           roundedFlatFrom="right"
           withIcon
           gap={3}
+          styleText={{
+            fontSize: '17px',
+          }}
           rounded="15px"
-          icon="/icons/logout.png"
+          icon="/icons/logout.svg"
           iconPosition="left"
           justifyContent="start"
           styleVariants="base"
-          styleText={{
-            color: 'primary',
-          }}
-          iconSize={24}
+          iconSize={28}
           color="primary"
         >
           Logout

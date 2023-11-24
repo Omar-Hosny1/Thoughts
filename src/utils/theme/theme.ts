@@ -5,9 +5,9 @@ export const Theme = extendTheme({
     global: {
       body: {
         bg: '#1D1D1D',
-        letterSpacing: '2px',
-        paddingX: '30px',
-        paddingY: '10px',
+        paddingX: { base: '15px', md: '30px' },
+        paddingY: { base: '10px', md: '20px' },
+        transition: '0.3s',
       },
     },
   },
@@ -18,6 +18,9 @@ export const Theme = extendTheme({
     success: '#77E96D',
   },
   components: {
+    Text: {
+      letterSpacing: '10px',
+    },
     Button: {
       baseStyle: {
         rounded: {

@@ -6,14 +6,15 @@ import Thought from '../common/thought';
 function ThoughtsWrapper() {
   return (
     <Box overflowY="scroll">
+      <Thought isAdmin />
+      <Thought isAdmin={false} />
+      {/* <Thought />
       <Thought />
       <Thought />
       <Thought />
       <Thought />
       <Thought />
-      <Thought />
-      <Thought />
-      <Thought />
+      <Thought /> */}
     </Box>
   );
 }

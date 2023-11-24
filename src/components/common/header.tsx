@@ -3,6 +3,7 @@ import React from 'react';
 
 import Button from '../base/button';
 import Thought from './logo';
+import UserMenu from './user-menu';
 
 function Header() {
   return (
@@ -13,19 +14,14 @@ function Header() {
         withIcon
         icon="/icons/edit.svg"
         paddingY="22px"
+        styleText={{
+          display: { base: 'none', md: 'initial' },
+        }}
       >
         Write a Thought
       </Button>
       <Thought />
-      <Button
-        roundedFlatFrom="left"
-        iconPosition="right"
-        withIcon
-        icon="/icons/edit.svg"
-        paddingY="22px"
-      >
-        Write a Thought
-      </Button>
+      <UserMenu />
     </Flex>
   );
 }
