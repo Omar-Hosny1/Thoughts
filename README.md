@@ -8,7 +8,6 @@
 Clone this project and use it to create your own [Next.js](https://nextjs.org) project. You can check a [Next js templates demo](https://creativedesignsguru.com/demo/Nextjs-Boilerplate/).
 
 ## Sponsors
-
 <table width="100%">
   <tr height="187px">
     <td align="center" width="33%">
