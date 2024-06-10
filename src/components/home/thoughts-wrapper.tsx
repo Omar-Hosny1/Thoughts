@@ -8,6 +8,10 @@ function ThoughtsWrapper() {
     <Box overflowY="scroll">
       <Thought isAdmin />
       <Thought isAdmin={false} />
+      <Thought isAdmin />
+      <Thought isAdmin={false} />
+      <Thought isAdmin />
+      <Thought isAdmin={false} />
       {/* <Thought />
       <Thought />
       <Thought />

@@ -1,20 +1,68 @@
-import { Flex } from '@chakra-ui/react';
-import React from 'react';
+import { Box, Flex } from '@chakra-ui/react';
+import React, { useState } from 'react';
 
 import Button from '../base/button';
 import Text from '../common/text';
 
 function MenusSection() {
+  const initialWidth: number = 120;
+  const maxWidth: number = 550;
+  const [width, setWidth] = useState(initialWidth);
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isResizing, setIsResizing] = useState(false);
+
+  const handleResize = (e: MouseEvent) => {
+    const newWidth = e.clientX;
+
+    setWidth(newWidth > maxWidth ? maxWidth : newWidth);
+    if (newWidth < 200) {
+      setIsCollapsed(true);
+    } else {
+      setIsCollapsed(false);
+    }
+  };
+
+  const stopResizing = () => {
+    setIsResizing(false);
+    document.body.style.userSelect = ''; // Re-enable text selection
+    window.removeEventListener('mousemove', handleResize);
+    window.removeEventListener('mouseup', stopResizing);
+  };
+
+  const startResizing = () => {
+    setIsResizing(true);
+    document.body.style.userSelect = 'none'; // Disable text selection
+    window.addEventListener('mousemove', handleResize);
+    window.addEventListener('mouseup', stopResizing);
+  };
+
   return (
-    <Flex pe="10px" h="full" flexDir="column" justifyContent="space-between">
+    <Flex
+      transition="all 0.3s"
+      display={{ base: 'none', md: 'flex' }}
+      pe="10px"
+      h="full"
+      flexDir="column"
+      pos="relative"
+      borderEndColor="secondary"
+      borderEndWidth="1px"
+      justifyContent="space-between"
+      width={isCollapsed ? `${initialWidth}px` : `${width}px`}
+    >
       <Flex flexDir="column" gap="10px">
-        <Text lineHeight={1} fontSize="3xl" mb="10px">
-          Your Heads up!
+        <Text
+          display={isCollapsed ? 'none' : 'initial'}
+          lineHeight={1}
+          fontSize="3xl"
+          mb="10px"
+        >
+          Menus
         </Text>
         <Button
-          paddingY="24px"
+          padding="24px"
           roundedFlatFrom="right"
           withIcon
+          hideChildren={isCollapsed}
           icon="/icons/home.svg"
           iconPosition="left"
           justifyContent="start"
@@ -28,9 +76,10 @@ function MenusSection() {
           Your Home
         </Button>
         <Button
-          paddingY="24px"
+          padding="24px"
           roundedFlatFrom="right"
           withIcon
+          hideChildren={isCollapsed}
           icon="/icons/notifications.svg"
           iconPosition="left"
           justifyContent="start"
@@ -44,9 +93,10 @@ function MenusSection() {
           Notifications
         </Button>
         <Button
-          paddingY="24px"
+          padding="24px"
           roundedFlatFrom="right"
           withIcon
+          hideChildren={isCollapsed}
           gap={3}
           styleText={{
             fontSize: '17px',
@@ -60,9 +110,10 @@ function MenusSection() {
           Peinding Blogs
         </Button>
         <Button
-          paddingY="24px"
+          padding="24px"
           roundedFlatFrom="right"
           withIcon
+          hideChildren={isCollapsed}
           gap={3}
           styleText={{
             fontSize: '17px',
@@ -76,9 +127,10 @@ function MenusSection() {
           Your Activity
         </Button>
         {/* <Button
-          paddingY="24px"
+          padding="24px"
           roundedFlatFrom="right"
           withIcon
+          hideChildren={isCollapsed}
           gap={3}
           styleText={{
             fontSize: '17px',
@@ -92,9 +144,10 @@ function MenusSection() {
           Most Used Tags
         </Button> */}
         <Button
-          paddingY="24px"
+          padding="24px"
           roundedFlatFrom="right"
           withIcon
+          hideChildren={isCollapsed}
           gap={3}
           styleText={{
             fontSize: '17px',
@@ -108,9 +161,11 @@ function MenusSection() {
           Users Statistics
         </Button>
         <Button
-          paddingY="24px"
+          padding="24px"
+          display="flex"
           roundedFlatFrom="right"
           withIcon
+          hideChildren={isCollapsed}
           gap={3}
           styleText={{
             fontSize: '17px',
@@ -128,9 +183,10 @@ function MenusSection() {
       </Flex>
       <Flex flexDir="column" gap="10px">
         <Button
-          paddingY="24px"
+          padding="24px"
           roundedFlatFrom="right"
           withIcon
+          hideChildren={isCollapsed}
           gap={3}
           styleText={{
             fontSize: '17px',
@@ -144,9 +200,10 @@ function MenusSection() {
           Settings
         </Button>
         <Button
-          paddingY="24px"
+          padding="24px"
           roundedFlatFrom="right"
           withIcon
+          hideChildren={isCollapsed}
           gap={3}
           styleText={{
             fontSize: '17px',
@@ -162,6 +219,22 @@ function MenusSection() {
           Logout
         </Button>
       </Flex>
+      <Box
+        onDoubleClick={() => setIsCollapsed(true)}
+        transition="all 0.3s"
+        onMouseDown={startResizing}
+        width="4px"
+        backgroundColor={isResizing ? 'secondary' : 'none'}
+        _hover={{
+          backgroundColor: 'secondary',
+        }}
+        cursor="ew-resize"
+        position="absolute"
+        right={0}
+        top={0}
+        bottom={0}
+        zIndex={10}
+      />
     </Flex>
   );
 }

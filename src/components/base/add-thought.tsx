@@ -10,9 +10,12 @@ function AddThought() {
   return (
     <BaseLayout
       headerContent={<Header />}
-      sectionCenter={<ThoughtsSection />}
+      mainSection={
+        <>
+          <MenusSection /> <ThoughtsSection />
+        </>
+      }
       sectionEnd={<SearchSection />}
-      sectionStart={<MenusSection />}
     />
   );
 }

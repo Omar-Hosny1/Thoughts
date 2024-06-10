@@ -6,10 +6,12 @@ import {
   Flex,
   Stack,
   Tooltip,
+  useDisclosure,
 } from '@chakra-ui/react';
 import React from 'react';
 
 import Button from '../base/button';
+import Modal from '../base/modal';
 import Text from './text';
 
 interface Props {
@@ -17,6 +19,7 @@ interface Props {
 }
 
 function Thought({ isAdmin }: Props) {
+  const { isOpen, onClose, onOpen } = useDisclosure();
   return (
     <Flex
       gap="15px"
@@ -27,15 +30,26 @@ function Thought({ isAdmin }: Props) {
       borderBottomWidth="1px"
       _hover={{ bg: 'black' }}
     >
-      <Tooltip label="Ryan Florence" placement="right">
-        <Avatar
-          bg="secondary"
-          name="Ryan Florence"
-          src="https://bit.ly/ryan-florence"
-        />
-      </Tooltip>
+      <Box display={{ base: 'none', md: 'initial' }}>
+        <Tooltip label="Ryan Florence" placement="right">
+          <Avatar
+            bg="secondary"
+            name="Ryan Florence"
+            src="https://bit.ly/ryan-florence"
+          />
+        </Tooltip>
+      </Box>
       <Box>
         <Flex gap="10px">
+          <Box display={{ base: 'initial', md: 'none' }}>
+            <Tooltip label="Ryan Florence" placement="right">
+              <Avatar
+                bg="secondary"
+                name="Ryan Florence"
+                src="https://bit.ly/ryan-florence"
+              />
+            </Tooltip>
+          </Box>
           <Box>
             <Text fontSize="lg" lineHeight="1">
               Omar Hosny
@@ -54,7 +68,7 @@ function Thought({ isAdmin }: Props) {
           have to decide what kind of difference you want to make........
         </Text>
         {/* <Image
-          src="/icons/islam.jpeg"
+          src="/icons/edit.svg"
           alt=""
           width={500}
           height={500}
@@ -72,38 +86,87 @@ function Thought({ isAdmin }: Props) {
           <Badge colorScheme="purple">New</Badge>
         </Stack>
         {isAdmin ? (
-          <ButtonGroup gap="10px" mt="3" display="flex">
-            <Button
-              withIcon
-              icon="icons/approve.svg"
-              styleVariants="success"
-              iconPosition="left"
-              flex={1}
-              fontSize="lg"
-              roundedFlatFrom="left"
+          <>
+            <Modal
+              isOpen={isOpen}
+              onClose={onClose}
+              size="xl"
+              title="Are You Sure That You Want To Approve This?"
             >
-              Approve Thought
-            </Button>
-            <Button
-              withIcon
-              flex={1}
-              icon="icons/reject.svg"
-              styleVariants="danger"
-              fontSize="lg"
-              roundedFlatFrom="left"
-              iconPosition="left"
+              <ButtonGroup
+                height="100px"
+                gap="10px"
+                mt="3"
+                display="flex"
+                flexDirection="column"
+              >
+                <Button
+                  withIcon
+                  icon="icons/approve.svg"
+                  styleVariants="base"
+                  iconPosition="left"
+                  flex={1}
+                  fontSize="lg"
+                >
+                  Approve Thought
+                </Button>
+                <Button
+                  withIcon
+                  icon="icons/reject.svg"
+                  styleVariants="outline"
+                  iconPosition="left"
+                  flex={1}
+                  onClick={onClose}
+                  fontSize="lg"
+                >
+                  Cancel Thought
+                </Button>
+              </ButtonGroup>
+            </Modal>
+            <ButtonGroup
+              gap="10px"
+              mt="3"
+              display="flex"
+              flexDir={{ base: 'column', md: 'row' }}
             >
-              Reject Thought
-            </Button>
-          </ButtonGroup>
+              <Button
+                withIcon
+                icon="icons/approve.svg"
+                styleVariants="base"
+                iconPosition="left"
+                flex={1}
+                p="10px"
+                fontSize="lg"
+                roundedFlatFrom="left"
+                onClick={onOpen}
+              >
+                Approve Thought
+              </Button>
+              <Button
+                withIcon
+                flex={1}
+                p="10px"
+                icon="icons/reject.svg"
+                styleVariants="outline"
+                fontSize="lg"
+                roundedFlatFrom="left"
+                iconPosition="left"
+              >
+                Reject Thought
+              </Button>
+            </ButtonGroup>
+          </>
         ) : (
-          <ButtonGroup gap="20px" mt="3">
+          <ButtonGroup
+            gap={{ base: '10px', md: '20px' }}
+            mt="3"
+            flexDir={{ base: 'column', md: 'row' }}
+          >
             <Button
               withIcon
               iconPosition="left"
               icon="/icons/views.svg"
               p={0}
-              bg={{}}
               styleText={{
                 color: 'secondary',
               }}
