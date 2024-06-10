@@ -8,16 +8,13 @@ const Index = () => {
   return (
     <BaseLayout
       headerContent={<Header />}
-      sectionCenter={<ThoughtsSection />}
+      mainSection={
+        <>
+          <MenusSection /> <ThoughtsSection />
+        </>
+      }
       sectionEnd={<SearchSection />}
-      sectionStart={<MenusSection />}
     />
-    // <BaseLayout
-    //   headerContent={<Header />}
-    //   sectionCenter={<ThoughtsSection />}
-    //   sectionEnd={<SearchSection />}
-    //   sectionStart={<MenusSection />}
-    // />
   );
 };
 

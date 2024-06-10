@@ -18,12 +18,16 @@ interface Props extends ButtonProps {
   icon?: string;
   iconSize?: number;
   styleText?: GLobalTextProps;
+  hideChildren?: boolean;
 }
 
 function getStyleVariant(style: ButtonStyleVariants) {
   switch (style) {
     case 'base':
       return {
+        _hover: {
+          bgColor: '#C9C9C9',
+        },
         color: 'primary',
         bgColor: 'secondary',
         borderWidth: '1px',
@@ -41,12 +45,21 @@ function getStyleVariant(style: ButtonStyleVariants) {
       };
     case 'outline':
       return {
+        _hover: {
+          bgColor: 'black',
+        },
         color: 'secondary',
         borderWidth: '1px',
         borderColor: 'secondary',
         bgColor: 'primary',
       };
-
+    case 'none':
+      return {
+        bgColor: 'transparent',
+        _hover: {
+          bgColor: 'transparent',
+        },
+      };
     default:
       return {};
   }
@@ -61,6 +74,7 @@ function Button({
   withIcon,
   iconSize = 20,
   styleText,
+  hideChildren = false,
   ...props
 }: Props) {
   const handleIconLogic = () => {
@@ -81,9 +95,10 @@ function Button({
 
   return (
     <BaseButton
+      margin="0 !important"
+      _active={{ backgroundColor: 'transparent' }}
       {...getStyleVariant(styleVariants)}
       {...handleIconLogic()}
-      _hover={{}}
       borderTopRightRadius={
         roundedFlatFrom === 'right' ? 0 : props.borderRadius || props.rounded
       }
@@ -91,13 +106,14 @@ function Button({
         roundedFlatFrom === 'left' ? 0 : props.borderRadius || props.rounded
       }
       rounded="lg"
+      overflow="hidden"
       {...props}
     >
       <Text
         color={styleVariants === 'base' ? 'primary' : styleText?.color}
         {...styleText}
       >
-        {children}
+        {!hideChildren ? children : null}
       </Text>
     </BaseButton>
   );

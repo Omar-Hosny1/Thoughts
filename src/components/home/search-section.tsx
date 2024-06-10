@@ -6,7 +6,14 @@ import Paper from '../base/paper';
 
 function SearchSection() {
   return (
-    <Flex flexDir="column" h="100%" ps="10px">
+    <Flex
+      borderStartColor="secondary"
+      borderStartWidth="1px"
+      borderColor="secondary"
+      flexDir="column"
+      h="100%"
+      ps="10px"
+    >
       <Input
         w="full"
         ps="40px"

@@ -4,14 +4,16 @@ import React from 'react';
 
 interface Props extends GridProps {
   headerContent: JSX.Element;
-  mainSection: JSX.Element;
+  sectionStart: JSX.Element;
   sectionEnd: JSX.Element;
+  sectionCenter: JSX.Element;
 }
 
 function BaseLayout({
   headerContent,
   sectionEnd,
-  mainSection,
+  sectionStart,
+  sectionCenter,
   ...props
 }: Props) {
   return (
@@ -25,15 +27,22 @@ function BaseLayout({
       <GridItem rowSpan={1} colSpan={8}>
         {headerContent}
       </GridItem>
-      {/* <GridItem
+      <GridItem
         rowSpan={10}
         colSpan={2}
         display={{ base: 'none', md: 'initial' }}
       >
         {sectionStart}
-      </GridItem> */}
-      <GridItem colSpan={{ base: 8, md: 8, lg: 6 }} rowSpan={10} display="flex">
-        {mainSection}
+      </GridItem>
+      <GridItem
+        colSpan={{ base: 8, md: 6, lg: 4 }}
+        rowSpan={10}
+        borderEndColor={{ md: 'secondary' }}
+        borderStartColor={{ md: 'secondary' }}
+        borderEndWidth={{ md: '1px' }}
+        borderStartWidth={{ md: '1px' }}
+      >
+        {sectionCenter}
       </GridItem>
       <GridItem
         rowSpan={10}

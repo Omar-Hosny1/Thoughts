@@ -5,8 +5,8 @@ export const Theme = extendTheme({
     global: {
       body: {
         bg: '#1D1D1D',
-        paddingX: { base: '15px', md: '30px' },
-        paddingY: { base: '10px', md: '20px' },
+        paddingX: { base: '15px !important', md: '30px !important' },
+        paddingY: { base: '10px !important', md: '20px !important' },
         transition: '0.3s',
       },
     },
