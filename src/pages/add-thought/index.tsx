@@ -1,12 +1,24 @@
-import { Box, Text } from '@chakra-ui/react';
 import React from 'react';
 
-function AddThoughtForm() {
+import AddThoughtForm from '@/components/add-thought/add-thought-form';
+import Header from '@/components/common/header';
+import MenusSection from '@/components/home/menus-section';
+import SearchSection from '@/components/home/search-section';
+import BaseLayout from '@/components/layouts/base-layout';
+
+function AddThought() {
   return (
-    <Box>
-      <Text>Thought Title</Text>
-    </Box>
+    <BaseLayout
+      headerContent={<Header />}
+      mainSection={
+        <>
+          <MenusSection />
+          <AddThoughtForm />
+        </>
+      }
+      sectionEnd={<SearchSection />}
+    />
   );
 }
 
-export default AddThoughtForm;
+export default AddThought;

@@ -10,10 +10,21 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background:transparent;
+  background: transparent;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background:transparent;
+  background: transparent;
+}
+
+
+.jodit-workplace + .jodit-status-bar:not(:empty) {
+  background-color: #1D1D1D;
+  border-width: 0;
+  border-top: 0;
+}
+
+.jodit-toolbar-editor-collection_size_middle.jodit-toolbar-editor-collection_mode_horizontal {
+  background-color: #eee5e9;
 }
