@@ -18,13 +18,17 @@
   background: transparent;
 }
 
-
 .jodit-workplace + .jodit-status-bar:not(:empty) {
-  background-color: #1D1D1D;
+  background-color: #1d1d1d;
   border-width: 0;
   border-top: 0;
 }
 
 .jodit-toolbar-editor-collection_size_middle.jodit-toolbar-editor-collection_mode_horizontal {
   background-color: #eee5e9;
+}
+
+.error-msg {
+  color: red;
+  font-size: 15px;
 }

@@ -17,10 +17,9 @@ function SearchSection() {
       <Input
         w="full"
         ps="40px"
-        py="25px"
         roundedFlatFrom="left"
+        placeholder="Search"
         withIcon
-        label="Search"
         iconSrc="/icons/search.svg"
       />
       <Flex mt="10px" w="full" gap="10px" flexGrow={1} flexDir="column">

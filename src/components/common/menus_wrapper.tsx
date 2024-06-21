@@ -85,25 +85,6 @@ function MenusWrapper({ isCollapsed }: { isCollapsed: boolean }) {
         >
           Your Activity
         </Button>
-        {/* <Button
-    padding="24px"
-    roundedFlatFrom="right"
-    withIcon
-          w={isCollapsed ? '80px' : 'unset'}
-
-    hideChildren={isCollapsed}
-    gap={3}
-    styleText={{
-      fontSize: '17px',
-    }}
-    rounded="15px"
-    icon="/icons/more.svg"
-    iconPosition="left"
-    justifyContent="start"
-    iconSize={28}
-  >
-    Most Used Tags
-  </Button> */}
         <Button
           padding="24px"
           roundedFlatFrom="right"

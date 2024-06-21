@@ -1,24 +1,28 @@
+import type { FlexProps } from '@chakra-ui/react';
 import {
   Avatar,
   Badge,
   Box,
   ButtonGroup,
   Flex,
-  Stack,
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
 import React from 'react';
 
+import type { Thought as ThoughtType } from '@/utils/interfaces/thought';
+
 import Button from '../base/button';
 import Modal from '../base/modal';
+import TagsWrapper from './tags-wrapper';
 import Text from './text';
 
 interface Props {
-  isAdmin: boolean;
+  thoughtStyling?: FlexProps | null;
+  thought: ThoughtType;
 }
 
-function Thought({ isAdmin }: Props) {
+function Thought({ thought, thoughtStyling }: Props) {
   const { isOpen, onClose, onOpen } = useDisclosure();
   return (
     <Flex
@@ -28,7 +32,9 @@ function Thought({ isAdmin }: Props) {
       cursor="pointer"
       borderBottomColor="secondary"
       borderBottomWidth="1px"
+      w="100%"
       _hover={{ bg: 'black' }}
+      {...thoughtStyling}
     >
       <Box display={{ base: 'none', md: 'initial' }}>
         <Tooltip label="Ryan Florence" placement="right">
@@ -39,7 +45,7 @@ function Thought({ isAdmin }: Props) {
           />
         </Tooltip>
       </Box>
-      <Box>
+      <Box w="100%">
         <Flex gap="10px">
           <Box display={{ base: 'initial', md: 'none' }}>
             <Tooltip label="Ryan Florence" placement="right">
@@ -55,7 +61,8 @@ function Thought({ isAdmin }: Props) {
               Omar Hosny
             </Text>
             <Text fontSize="12px" color="gray.300" lineHeight="1.3">
-              10/24/2023
+              {/* 10/24/2023 */}
+              {thought.publishedDate.toDateString()}
             </Text>
           </Box>
           <Badge ml="1" h="fit-content" colorScheme="green">
@@ -63,10 +70,12 @@ function Thought({ isAdmin }: Props) {
           </Badge>
         </Flex>
         <Text fontSize="md" color="#C8C8C8" mt="10px" lineHeight={1.3}>
-          What you do makes a difference, and you have to decide what kind of
+          {/* What you do makes a difference, and you have to decide what kind of
           difference you want to make. What you do makes a difference, and you
-          have to decide what kind of difference you want to make........
+          have to decide what kind of difference you want to make........ */}
+          {thought.thoughtTitle}
         </Text>
+        <Box dangerouslySetInnerHTML={{ __html: thought.thoughtBody }} />
         {/* <Image
           src="/icons/edit.svg"
           alt=""
@@ -79,13 +88,15 @@ function Thought({ isAdmin }: Props) {
           }}
           sizes="(max-width: 768px) 100vw, 33vw"
         /> */}
-        <Stack direction="row" my="10px">
+        <Box my="10px" />
+        <TagsWrapper tags={thought.tags} isEditingMode={false} />
+        {/* <Stack direction="row" my="10px">
           <Badge>Default</Badge>
           <Badge colorScheme="green">Programming</Badge>
           <Badge colorScheme="red">Flutter</Badge>
           <Badge colorScheme="purple">New</Badge>
-        </Stack>
-        {isAdmin ? (
+        </Stack> */}
+        {thought.isAdmin ? (
           <>
             <Modal
               isOpen={isOpen}
@@ -125,6 +136,7 @@ function Thought({ isAdmin }: Props) {
             </Modal>
             <ButtonGroup
               gap="10px"
+              w="100%"
               mt="3"
               display="flex"
               flexDir={{ base: 'column', md: 'row' }}

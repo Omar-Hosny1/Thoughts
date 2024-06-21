@@ -14,13 +14,11 @@ type InputStyleVariants = 'outline';
 
 interface CoreInputProps extends InputProps {
   roundedFlatFrom: RoundedFlatFrom;
-  label: string;
   styleVariants?: InputStyleVariants;
 }
 
 function CoreInput({
   roundedFlatFrom,
-  label,
   styleVariants = 'outline',
   ...props
 }: CoreInputProps) {
@@ -44,7 +42,6 @@ function CoreInput({
   return (
     <BaseInput
       {...getStyleVariant()}
-      placeholder={label}
       w="fit-content"
       borderTopRightRadius={
         roundedFlatFrom === 'right' ? 0 : props.borderRadius

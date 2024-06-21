@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import MenusWrapper from '../common/menus_wrapper';
 
 function MenusSection() {
-  const initialWidth: number = 120;
-  const maxWidth: number = 550;
+  const initialWidth: number = 100;
+  const maxWidth: number = 350;
   const [width, setWidth] = useState(initialWidth);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isResizing, setIsResizing] = useState(false);
@@ -39,9 +39,8 @@ function MenusSection() {
     <Flex
       transition="all 0.3s"
       display={{ base: 'none', md: 'flex' }}
-      pe="10px"
       h="full"
-      alignItems="stretch"
+      pe="10px"
       flexDir="column"
       pos="relative"
       borderEndColor="secondary"
