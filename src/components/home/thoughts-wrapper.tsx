@@ -11,14 +11,6 @@ function ThoughtsWrapper({ thoughts }: { thoughts: ThoughtType[] }) {
       {thoughts.map((e) => (
         <Thought thought={e} key={e.id} />
       ))}
-
-      {/* <Thought />
-      <Thought />
-      <Thought />
-      <Thought />
-      <Thought />
-      <Thought />
-      <Thought /> */}
     </Box>
   );
 }

@@ -1,18 +1,21 @@
+import dynamic from 'next/dynamic';
+
 import Header from '@/components/common/header';
-import MenusSection from '@/components/home/menus-section';
 import SearchSection from '@/components/home/search-section';
 import ThoughtsSection from '@/components/home/thoughts-section';
 import BaseLayout from '@/components/layouts/base-layout';
+
+const MenusSection = dynamic(
+  () => import('../components/common/menus-section'),
+  { ssr: false },
+);
 
 const Index = () => {
   return (
     <BaseLayout
       headerContent={<Header />}
-      mainSection={
-        <>
-          <MenusSection /> <ThoughtsSection />
-        </>
-      }
+      mainSection={<ThoughtsSection />}
+      sectionStart={<MenusSection />}
       sectionEnd={<SearchSection />}
     />
   );

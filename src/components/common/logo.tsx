@@ -1,7 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import React from 'react';
 
-function Thoughts() {
+function ThoughtsLogo() {
   return (
     <Text fontSize="28px" color="secondary">
       Thoughts.
@@ -9,4 +9,4 @@ function Thoughts() {
   );
 }
 
-export default Thoughts;
+export default ThoughtsLogo;

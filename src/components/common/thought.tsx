@@ -33,7 +33,6 @@ function Thought({ thought, thoughtStyling }: Props) {
       borderBottomColor="secondary"
       borderBottomWidth="1px"
       w="100%"
-      _hover={{ bg: 'black' }}
       {...thoughtStyling}
     >
       <Box display={{ base: 'none', md: 'initial' }}>
@@ -69,33 +68,12 @@ function Thought({ thought, thoughtStyling }: Props) {
             New
           </Badge>
         </Flex>
-        <Text fontSize="md" color="#C8C8C8" mt="10px" lineHeight={1.3}>
-          {/* What you do makes a difference, and you have to decide what kind of
-          difference you want to make. What you do makes a difference, and you
-          have to decide what kind of difference you want to make........ */}
+        <Text fontSize="x-large" color="#C8C8C8" mt="10px" lineHeight={1.3}>
           {thought.thoughtTitle}
         </Text>
         <Box dangerouslySetInnerHTML={{ __html: thought.thoughtBody }} />
-        {/* <Image
-          src="/icons/edit.svg"
-          alt=""
-          width={500}
-          height={500}
-          style={{
-            marginTop: 10,
-            marginBottom: 10,
-            borderRadius: 10,
-          }}
-          sizes="(max-width: 768px) 100vw, 33vw"
-        /> */}
         <Box my="10px" />
         <TagsWrapper tags={thought.tags} isEditingMode={false} />
-        {/* <Stack direction="row" my="10px">
-          <Badge>Default</Badge>
-          <Badge colorScheme="green">Programming</Badge>
-          <Badge colorScheme="red">Flutter</Badge>
-          <Badge colorScheme="purple">New</Badge>
-        </Stack> */}
         {thought.isAdmin ? (
           <>
             <Modal
@@ -171,7 +149,7 @@ function Thought({ thought, thoughtStyling }: Props) {
         ) : (
           <ButtonGroup
             gap={{ base: '10px', md: '20px' }}
-            mt="3"
+            mt="2"
             flexDir={{ base: 'column', md: 'row' }}
           >
             <Button
@@ -184,7 +162,7 @@ function Thought({ thought, thoughtStyling }: Props) {
               }}
               styleVariants="none"
             >
-              80,000 Looks
+              {thought.looks} Looks
             </Button>
             <Button
               withIcon
@@ -197,7 +175,7 @@ function Thought({ thought, thoughtStyling }: Props) {
               }}
               styleVariants="none"
             >
-              56,570 Repost
+              {thought.reposts} Repost
             </Button>
           </ButtonGroup>
         )}

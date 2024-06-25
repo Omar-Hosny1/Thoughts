@@ -6,7 +6,7 @@ import {
   InputRightElement,
 } from '@chakra-ui/react';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 
 import type { RoundedFlatFrom } from '@/utils/types/RoundedFlatFrom';
 
@@ -59,6 +59,8 @@ interface Props extends CoreInputProps {
 }
 
 function Input({ withIcon, iconPositon, iconSrc = '', ...props }: Props) {
+  const [showPassword, setShowPassword] = useState(false);
+
   if (withIcon) {
     return (
       <InputGroup>
@@ -76,6 +78,26 @@ function Input({ withIcon, iconPositon, iconSrc = '', ...props }: Props) {
           </InputLeftElement>
         )}
         <CoreInput {...props} />
+      </InputGroup>
+    );
+  }
+  if (props.type === 'password') {
+    return (
+      <InputGroup>
+        <InputRightElement cursor="pointer">
+          <Image
+            onClick={() => setShowPassword((prev) => !prev)}
+            alt=""
+            src={
+              showPassword
+                ? '/icons/show-password.svg'
+                : '/icons/hide-password.svg'
+            }
+            width={20}
+            height={20}
+          />
+        </InputRightElement>
+        <CoreInput {...props} type={showPassword ? 'text' : 'password'} />
       </InputGroup>
     );
   }

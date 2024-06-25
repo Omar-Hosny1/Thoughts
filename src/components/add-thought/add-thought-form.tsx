@@ -1,13 +1,12 @@
-'use client';
-
 import { Box, FormLabel, useDisclosure } from '@chakra-ui/react';
 import { ErrorMessage, FieldArray, Formik } from 'formik';
+import { motion } from 'framer-motion';
 import type { IJoditEditorProps } from 'jodit-react';
 import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
 
 import type AddThoughtFormType from '@/utils/types/AddThoughtForm';
-import AddThoughtSchema from '@/validations/add-tought-form';
+import AddThoughtSchema from '@/validations/add-tought-form-schema';
 
 import Button from '../base/button';
 import Input from '../base/input';
@@ -29,7 +28,7 @@ function AddThoughtForm() {
       style: {
         backgroundColor: '#1D1D1D',
       },
-      className: 'aa',
+      className: 'joditor',
       readonly: false,
       cache: true,
     }),
@@ -52,17 +51,13 @@ function AddThoughtForm() {
     }
   }
   const { isOpen, onClose, onOpen } = useDisclosure();
-
   return (
+    // <Box paddingStart="10px" h="100%" overflow="scroll">
     <Formik
-      w="100%"
       validationSchema={AddThoughtSchema}
-      paddingStart="10px"
       initialValues={initialValues}
-      onSubmit={(values, formikProps) => {
+      onSubmit={(_, formikProps) => {
         formikProps.validateForm();
-        console.log('values');
-        console.log(values);
       }}
     >
       {(formik) => {
@@ -104,7 +99,6 @@ function AddThoughtForm() {
                 if (formik.touched.thoughtBody !== true) {
                   formik.setFieldTouched('thoughtBody', true);
                 }
-                console.log(newValue);
               }}
               value={formik.values.thoughtBody}
             />
@@ -157,8 +151,10 @@ function AddThoughtForm() {
             </FieldArray>
             <Button
               w="100%"
-              isDisabled={!formik.isValid}
-              onClick={onOpen}
+              isDisabled={!formik.isValid || !formik.dirty}
+              onClick={() => {
+                onOpen();
+              }}
               padding="24px"
               styleVariants="outline"
               roundedFlatFrom="left"
@@ -176,28 +172,43 @@ function AddThoughtForm() {
               Preview Thought
             </Button>
             <Modal
-              addNiceOverly
               addCloseBtn={false}
               ModalContentStyling={{ bg: 'unset' }}
               isOpen={isOpen}
               onClose={onClose}
-              size="xl"
+              isCentered
               closeOnOverlayClick
+              size="xlg"
             >
-              <Thought
-                thoughtStyling={{
-                  borderBottomWidth: 0,
-                  bg: 'primary',
+              <motion.div
+                animate={{
+                  scale: 1,
                 }}
-                thought={{
-                  id: '5',
-                  isAdmin: false,
-                  publishedDate: new Date(),
-                  tags: formik.values.tags,
-                  thoughtBody: formik.values.thoughtBody,
-                  thoughtTitle: formik.values.thoughtTitle,
+                style={{
+                  transition: '0.5s',
+                  scale: 0.9,
                 }}
-              />
+              >
+                <Thought
+                  thoughtStyling={{
+                    borderBottomWidth: 0,
+                    bg: 'primary',
+                    overflowY: 'scroll',
+                  }}
+                  thought={{
+                    id: '5',
+                    isAdmin: false,
+                    isApproved: true,
+                    approvedDate: null,
+                    publishedDate: new Date(),
+                    looks: 150,
+                    reposts: 20000,
+                    tags: formik.values.tags,
+                    thoughtBody: formik.values.thoughtBody,
+                    thoughtTitle: formik.values.thoughtTitle,
+                  }}
+                />
+              </motion.div>
             </Modal>
             <Button
               w="100%"

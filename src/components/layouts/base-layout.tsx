@@ -1,9 +1,10 @@
 import type { GridProps } from '@chakra-ui/react';
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Box, Grid, GridItem } from '@chakra-ui/react';
 import React from 'react';
 
 interface Props extends GridProps {
   headerContent: JSX.Element;
+  sectionStart: JSX.Element;
   mainSection: JSX.Element;
   sectionEnd: JSX.Element;
 }
@@ -11,6 +12,7 @@ interface Props extends GridProps {
 function BaseLayout({
   headerContent,
   sectionEnd,
+  sectionStart,
   mainSection,
   ...props
 }: Props) {
@@ -33,7 +35,10 @@ function BaseLayout({
         {sectionStart}
       </GridItem> */}
       <GridItem colSpan={{ base: 8, md: 8, lg: 6 }} rowSpan={10} display="flex">
-        {mainSection}
+        {sectionStart}
+        <Box h="100%" overflow="scroll" w="100%">
+          {mainSection}
+        </Box>
       </GridItem>
       <GridItem
         rowSpan={10}

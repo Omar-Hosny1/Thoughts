@@ -15,7 +15,6 @@ const AddThoughtSchema = Yup.object({
   thoughtTitle: Yup.string()
     .trim()
     .min(0, "This Field Can't Be Empty")
-    .max(15, 'Your User Name Must my 15 Char as Maximum')
     .required('Please Enter Your Thought Title'),
   thoughtBody: Yup.string()
     .trim()

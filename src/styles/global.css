@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* width */
 ::-webkit-scrollbar {
   width: 0px;
@@ -31,4 +35,13 @@
 .error-msg {
   color: red;
   font-size: 15px;
+}
+
+.jodit-wysiwyg ::selection {
+  background: #007bff; /* Custom background color */
+  color: #ffffff; /* Custom text color (white) */
+}
+
+option {
+  background: #1d1d1d !important;
 }

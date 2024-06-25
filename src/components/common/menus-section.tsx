@@ -1,11 +1,12 @@
 import { Box, Flex } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
-import MenusWrapper from '../common/menus_wrapper';
+import MenusWrapper from './menus_wrapper';
 
 function MenusSection() {
   const initialWidth: number = 100;
-  const maxWidth: number = 350;
+  const maxWidth: number = 400;
+
   const [width, setWidth] = useState(initialWidth);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isResizing, setIsResizing] = useState(false);
