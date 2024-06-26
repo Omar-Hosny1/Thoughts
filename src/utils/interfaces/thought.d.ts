@@ -1,11 +1,16 @@
-import type AddThoughtFormType from '../types/AddThoughtForm';
-
-interface Thought extends AddThoughtFormType {
+interface IThought {
   id: string;
+  userId: string;
   isAdmin: boolean;
-  publishedDate: Date;
   looks: number;
   reposts: number;
   isApproved: boolean;
   approvedDate: Date | null;
+  thoughtTitle: string;
+  thoughtBody: string;
+  tags: Array<string>;
+  publishedDate: Date;
+  createdDate: Date;
 }
+
+export default IThought;

@@ -203,6 +203,8 @@ function AddThoughtForm() {
                     publishedDate: new Date(),
                     looks: 150,
                     reposts: 20000,
+                    createdDate: new Date(),
+                    userId: 'sda',
                     tags: formik.values.tags,
                     thoughtBody: formik.values.thoughtBody,
                     thoughtTitle: formik.values.thoughtTitle,

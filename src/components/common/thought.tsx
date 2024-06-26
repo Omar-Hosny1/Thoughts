@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
-import type { Thought as ThoughtType } from '@/utils/interfaces/thought';
+import type IThought from '@/utils/interfaces/thought';
 
 import Button from '../base/button';
 import Modal from '../base/modal';
@@ -19,7 +19,7 @@ import Text from './text';
 
 interface Props {
   thoughtStyling?: FlexProps | null;
-  thought: ThoughtType;
+  thought: IThought;
 }
 
 function Thought({ thought, thoughtStyling }: Props) {

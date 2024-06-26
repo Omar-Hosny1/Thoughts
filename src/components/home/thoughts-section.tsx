@@ -1,38 +1,15 @@
 import { Divider, Flex } from '@chakra-ui/react';
 import React from 'react';
 
-import type { Thought } from '@/utils/interfaces/thought';
+import type IThought from '@/utils/interfaces/thought';
 
 import FilterationButtons from './filteration-buttons';
 import ThoughtsWrapper from './thoughts-wrapper';
 
-const thoughts: Thought[] = [
+const thoughts: IThought[] = [
   {
-    id: '2',
-    approvedDate: new Date(),
-    isAdmin: true,
-    isApproved: true,
-    publishedDate: new Date(),
-    tags: ['react', 'react native', 'js'],
-    thoughtBody: '',
-    thoughtTitle: 'HEYYYYYYYY',
-    looks: 80,
-    reposts: 70,
-  },
-  {
-    id: '1',
-    approvedDate: new Date(),
-
-    isApproved: true,
-    isAdmin: false,
-    publishedDate: new Date(),
-    tags: ['react', 'react native', 'js'],
-    thoughtBody: '',
-    thoughtTitle: 'HEYYYYYYYY',
-    looks: 70,
-    reposts: 79,
-  },
-  {
+    createdDate: new Date(),
+    userId: 'sda',
     id: '8',
     isAdmin: false,
     approvedDate: new Date(),
@@ -47,6 +24,8 @@ const thoughts: Thought[] = [
     reposts: 5588,
   },
   {
+    createdDate: new Date(),
+    userId: 'sda',
     thoughtBody:
       '<p><span style="font-size: 32px;"><span style="color: rgb(255, 255, 255);">LET\'S TALK ABOUT REACT NATIVE</span><br><span style="color: rgb(239, 239, 239); font-size: 18px;">React Native&nbsp;brings the React programming paradigm to platforms like Android and iOS. It doesn\'t prescribe how to do routing, or how to access each of the&nbsp;...</span><br><br></span></p><p><img src="data:image/png;base64,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" alt="" width="975" height="494"></p><p><br></p><p><br></p>',
     tags: ['wq', 'ew', 'qw'],
