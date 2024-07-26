@@ -1,22 +1,42 @@
-import { authMiddleware, redirectToSignIn } from '@clerk/nextjs';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+import NextAuth from 'next-auth';
 
-export default authMiddleware({
-  publicRoutes: (req: NextRequest) =>
-    !req.nextUrl.pathname.startsWith('/dashboard'),
-  ignoredRoutes: ['/api/guestbook'],
-  // By default, the middleware will return a 401 response for all routes `/api/*` when the user is signed out.
-  // But, for `/api/guestbook`, we want unauthenticated users to be able to access it.
+import authConfig from '../auth.config';
+import {
+  apiAuthPrefix,
+  authRoutes,
+  DEFAULT_LOGIN_REDIRECT,
+  publicRoutes,
+} from '../routes';
 
-  // eslint-disable-next-line consistent-return
-  afterAuth(auth, req) {
-    // handle users who aren't authenticated
-    if (!auth.userId && !auth.isPublicRoute) {
-      return redirectToSignIn({ returnBackUrl: req.url });
+const { auth } = NextAuth(authConfig);
+
+export default auth((req) => {
+  const { nextUrl } = req;
+  const isLoggedin = !!req.auth;
+
+  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isAuthRoutes = authRoutes.includes(nextUrl.pathname);
+  const isPublicRoutes = publicRoutes.includes(nextUrl.pathname);
+
+  if (isApiAuthRoute) {
+    return;
+  }
+
+  if (isAuthRoutes) {
+    if (isLoggedin) {
+      NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      return;
     }
-  },
+    return;
+  }
+
+  if (!isLoggedin && !isPublicRoutes) {
+    NextResponse.redirect(new URL(`/auth/login`, nextUrl));
+  }
 });
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+  // matcher : ["/auth/login"] // the middleware will work on these paths
+  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
 };

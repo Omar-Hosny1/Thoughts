@@ -2,17 +2,17 @@
 
 import React from 'react';
 
-import AddThoughtForm from '@/components/add-thought/add-thought-form';
 import Header from '@/components/common/header';
 import MenusSection from '@/components/common/menus-section';
 import SearchSection from '@/components/home/search-section';
+import ThoughtsSection from '@/components/home/thoughts-section';
 import BaseLayout from '@/components/layouts/base-layout';
 
 function AddThought() {
   return (
     <BaseLayout
       headerContent={<Header />}
-      mainSection={<AddThoughtForm />}
+      mainSection={<ThoughtsSection />}
       sectionStart={<MenusSection />}
       sectionEnd={<SearchSection />}
     />

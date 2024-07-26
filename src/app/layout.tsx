@@ -1,11 +1,21 @@
 import '../styles/global.css';
 
+import { QueryClientProvider } from '@tanstack/react-query';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Jua } from 'next/font/google';
+import { SessionProvider } from 'next-auth/react';
 
+import { queryClient } from '@/utils/query-client';
 import { Providers } from '@/utils/theme/providers';
 
-const inter = Inter({ subsets: ['latin'] });
+import { auth } from '../../auth';
+
+const jua = Jua({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+  adjustFontFallback: false,
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,13 +27,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
-    // <SessionProvider session={session}>
-    <html lang="en">
-      <body className={inter.className}>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
-    // </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider session={session}>
+        <html lang="en">
+          <body className={jua.className}>
+            <Providers>{children}</Providers>
+          </body>
+        </html>
+      </SessionProvider>
+    </QueryClientProvider>
   );
 }

@@ -1,9 +1,11 @@
+import type { TextProps } from '@chakra-ui/react';
 import { Text } from '@chakra-ui/react';
 import React from 'react';
 
-function ThoughtsLogo() {
+interface ThoughtsLogoProps extends TextProps {}
+function ThoughtsLogo(props: ThoughtsLogoProps) {
   return (
-    <Text fontSize="28px" color="secondary">
+    <Text fontWeight="bold" fontSize="28px" color="secondary" {...props}>
       Thoughts.
     </Text>
   );

@@ -1,3 +1,5 @@
+'use client';
+
 import { Flex, useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';

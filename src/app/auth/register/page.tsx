@@ -1,6 +1,9 @@
 'use client';
 
 import { Box, Select } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
+import { register } from 'actions/register';
+import type { AxiosError } from 'axios';
 import type { FieldArrayRenderProps } from 'formik';
 import { ErrorMessage, FieldArray, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
@@ -11,6 +14,7 @@ import Input from '@/components/base/input';
 import ThoughtsLogo from '@/components/common/logo';
 import TagsWrapper from '@/components/common/tags-wrapper';
 import Text from '@/components/common/text';
+import { useShowToast } from '@/utils/hooks/use-show-toast';
 import type SignUpFormType from '@/utils/types/SignUpForm';
 import SignUpFormSchema, {
   getTodayDate,
@@ -27,6 +31,23 @@ const initialValues: SignUpFormType = {
 };
 
 function Signup() {
+  const router = useRouter();
+  const toast = useShowToast();
+
+  const { mutate, isLoading } = useMutation(register, {
+    onError: (error: AxiosError) => {
+      toast((error.response?.data as any).message || '', 'error');
+    },
+    onSuccess(data) {
+      toast(data.message, 'success', 'Check your email!');
+      router.replace('/auth/login');
+    },
+  });
+
+  const onSubmitHandler = (values: any) => {
+    mutate({ ...values, userRole: 'user' });
+  };
+
   const onChangeinterestsSelectHandler = (
     e: React.ChangeEvent<HTMLSelectElement>,
     interests: string[],
@@ -41,7 +62,6 @@ function Signup() {
     e.target.value = '';
   };
 
-  const router = useRouter();
   return (
     <Box
       display="flex"
@@ -61,9 +81,7 @@ function Signup() {
         </Text>
         <Formik
           validationSchema={SignUpFormSchema}
-          onSubmit={(_, formikProps) => {
-            formikProps.validateForm();
-          }}
+          onSubmit={onSubmitHandler}
           initialValues={initialValues}
         >
           {(formik) => (
@@ -194,6 +212,7 @@ function Signup() {
               <Button
                 icon="/icons/signup.svg"
                 iconPosition="left"
+                isDisabled={!formik.isValid || isLoading}
                 onClick={() => formik.handleSubmit()}
                 styleVariants="base"
                 withIcon
