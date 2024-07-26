@@ -1,5 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import Button from '../base/button';

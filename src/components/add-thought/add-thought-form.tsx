@@ -1,8 +1,10 @@
+'use client';
+
 import { Box, FormLabel, useDisclosure } from '@chakra-ui/react';
 import { ErrorMessage, FieldArray, Formik } from 'formik';
 import { motion } from 'framer-motion';
 import type { IJoditEditorProps } from 'jodit-react';
-import dynamic from 'next/dynamic';
+import JoditEditor from 'jodit-react';
 import { useMemo } from 'react';
 
 import type AddThoughtFormType from '@/utils/types/AddThoughtForm';
@@ -14,7 +16,6 @@ import Modal from '../base/modal';
 import TagsWrapper from '../common/tags-wrapper';
 import Thought from '../common/thought';
 
-const JoditEditor = dynamic(() => import('jodit-react'), { ssr: false });
 const initialValues: AddThoughtFormType = {
   thoughtBody: '',
   tags: [],

@@ -1,6 +1,8 @@
+'use client';
+
 import { Box } from '@chakra-ui/react';
 import { ErrorMessage, Formik } from 'formik';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import Button from '@/components/base/button';
@@ -79,7 +81,7 @@ function Login() {
               </Button>
               <Button
                 onClick={() => {
-                  router.push('/auth/signup');
+                  router.push('/auth/register');
                 }}
                 icon="/icons/login.svg"
                 iconPosition="right"
