@@ -1,24 +1,22 @@
-import dynamic from 'next/dynamic';
+'use client';
 
+import React from 'react';
+
+import AddThoughtForm from '@/components/add-thought/add-thought-form';
 import Header from '@/components/common/header';
+import MenusSection from '@/components/common/menus-section';
 import SearchSection from '@/components/home/search-section';
-import ThoughtsSection from '@/components/home/thoughts-section';
 import BaseLayout from '@/components/layouts/base-layout';
 
-const MenusSection = dynamic(
-  () => import('../components/common/menus-section'),
-  { ssr: false },
-);
-
-const Index = () => {
+function AddThought() {
   return (
     <BaseLayout
       headerContent={<Header />}
-      mainSection={<ThoughtsSection />}
+      mainSection={<AddThoughtForm />}
       sectionStart={<MenusSection />}
       sectionEnd={<SearchSection />}
     />
   );
-};
+}
 
-export default Index;
+export default AddThought;

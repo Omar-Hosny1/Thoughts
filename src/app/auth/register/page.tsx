@@ -1,7 +1,9 @@
+'use client';
+
 import { Box, Select } from '@chakra-ui/react';
 import type { FieldArrayRenderProps } from 'formik';
 import { ErrorMessage, FieldArray, Formik } from 'formik';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import Button from '@/components/base/button';
