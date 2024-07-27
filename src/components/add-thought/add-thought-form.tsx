@@ -1,12 +1,16 @@
 'use client';
 
 import { Box, FormLabel, useDisclosure } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
+import { createThought } from 'actions/thought';
+import type { AxiosError } from 'axios';
 import { ErrorMessage, FieldArray, Formik } from 'formik';
 import { motion } from 'framer-motion';
 import type { IJoditEditorProps } from 'jodit-react';
 import JoditEditor from 'jodit-react';
 import { useMemo } from 'react';
 
+import { useShowToast } from '@/utils/hooks/use-show-toast';
 import type AddThoughtFormType from '@/utils/types/AddThoughtForm';
 import AddThoughtSchema from '@/validations/add-tought-form-schema';
 
@@ -23,6 +27,7 @@ const initialValues: AddThoughtFormType = {
 };
 
 function AddThoughtForm() {
+  const toast = useShowToast();
   const config: IJoditEditorProps['config'] = useMemo(
     () => ({
       placeholder: 'immerse your self...',
@@ -35,6 +40,14 @@ function AddThoughtForm() {
     }),
     [],
   );
+  const { mutate, isLoading } = useMutation(createThought, {
+    onError: (error: AxiosError) => {
+      toast((error.response?.data as any).message, 'error');
+    },
+    onSuccess() {
+      toast('ADDED', 'success');
+    },
+  });
 
   function onEnterKeyClicked(
     e: React.KeyboardEvent<HTMLInputElement>,
@@ -57,8 +70,9 @@ function AddThoughtForm() {
     <Formik
       validationSchema={AddThoughtSchema}
       initialValues={initialValues}
-      onSubmit={(_, formikProps) => {
+      onSubmit={(values, formikProps) => {
         formikProps.validateForm();
+        mutate(values);
       }}
     >
       {(formik) => {
@@ -191,14 +205,15 @@ function AddThoughtForm() {
                 }}
               >
                 <Thought
+                  userId=""
                   thoughtStyling={{
                     borderBottomWidth: 0,
                     bg: 'primary',
                     overflowY: 'scroll',
                   }}
+                  isAdmin={false}
                   thought={{
-                    id: '5',
-                    isAdmin: false,
+                    _id: '5',
                     isApproved: true,
                     approvedDate: null,
                     publishedDate: new Date(),
@@ -221,6 +236,8 @@ function AddThoughtForm() {
               roundedFlatFrom="left"
               withIcon
               gap={3}
+              isLoading={isLoading}
+              isDisabled={!formik.isValid || !formik.dirty || isLoading}
               styleText={{
                 fontSize: '17px',
               }}

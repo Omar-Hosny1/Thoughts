@@ -1,9 +1,12 @@
 import { Avatar, Box, Flex, Tooltip } from '@chakra-ui/react';
 import React from 'react';
 
+import { useCurrentUser } from '@/utils/hooks/use-current-user';
+
 import Text from './text';
 
 function UserMenu() {
+  const user = useCurrentUser();
   return (
     <Flex
       gap="12px"
@@ -15,17 +18,17 @@ function UserMenu() {
     >
       <Box display={{ base: 'none', md: 'initial' }}>
         <Text fontSize="2xl" lineHeight={1}>
-          Omar Hosny
+          {user?.name || 'N/A'}
         </Text>
         <Text fontSize="12px" color="gray.300" lineHeight="1.3">
-          Admin
+          {user?.userRole || 'N/A'}
         </Text>
       </Box>
-      <Tooltip label="Ryan Florence" placement="right">
+      <Tooltip label={user?.name || 'N/A'} placement="bottom">
         <Avatar
           bg="secondary"
-          name="Ryan Florence"
-          src="https://bit.ly/ryan-florence"
+          name={user?.name || 'N/A'}
+          src={user?.image || undefined}
         />
       </Tooltip>
     </Flex>

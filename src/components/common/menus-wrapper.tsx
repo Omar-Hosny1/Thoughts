@@ -1,5 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 import React from 'react';
 
 import Button from '../base/button';
@@ -19,7 +20,7 @@ function MenusWrapper({ isCollapsed }: { isCollapsed: boolean }) {
           icon="/icons/home.svg"
           iconPosition="left"
           onClick={() => {
-            router.back();
+            router.push('/home');
           }}
           justifyContent="start"
           iconSize={28}
@@ -146,6 +147,9 @@ function MenusWrapper({ isCollapsed }: { isCollapsed: boolean }) {
           Settings
         </Button>
         <Button
+          onClick={() => {
+            signOut();
+          }}
           padding="24px"
           roundedFlatFrom="right"
           withIcon

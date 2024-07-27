@@ -2,8 +2,8 @@ import * as Yup from 'yup';
 
 const LoginFormSchema = Yup.object({
   email: Yup.string()
-    .required('Email is required')
-    .email('Invalid email address'),
+    .email('Invalid email address')
+    .required('Email is required'),
   password: Yup.string()
     .trim()
     .min(8, 'Password must be at least 8 characters long')

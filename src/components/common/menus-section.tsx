@@ -3,7 +3,7 @@
 import { Box, Flex } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
-import MenusWrapper from './menus_wrapper';
+import MenusWrapper from './menus-wrapper';
 
 function MenusSection() {
   const initialWidth: number = 100;

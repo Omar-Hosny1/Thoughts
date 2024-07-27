@@ -7,7 +7,7 @@ import React from 'react';
 import Button from '../base/button';
 import Modal from '../base/modal';
 import Thought from './logo';
-import MenusWrapper from './menus_wrapper';
+import MenusWrapper from './menus-wrapper';
 import UserMenu from './user-menu';
 
 function Header() {

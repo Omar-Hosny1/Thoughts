@@ -1,24 +1,45 @@
 'use client';
 
 import { Box } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
+import { login } from 'actions/login';
+import type { AxiosError } from 'axios';
 import { ErrorMessage, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import React from 'react';
+import type * as yup from 'yup';
 
 import Button from '@/components/base/button';
 import Input from '@/components/base/input';
 import ThoughtsLogo from '@/components/common/logo';
 import Text from '@/components/common/text';
-import type LoginFormType from '@/utils/types/LoginForm';
+import { useShowToast } from '@/utils/hooks/use-show-toast';
 import LoginFormSchema from '@/validations/login-form-schema';
 
-const initialValues: LoginFormType = {
+const initialValues: yup.InferType<typeof LoginFormSchema> = {
   email: '',
   password: '',
 };
 
 function Login() {
+  const toast = useShowToast();
   const router = useRouter();
+
+  const { mutate, isLoading } = useMutation(login, {
+    onError: (error: AxiosError) => {
+      toast((error.response?.data as any).message || '', 'error');
+    },
+    onSuccess(data) {
+      signIn('credentials', {
+        token: data.token,
+        ...data.user,
+      });
+
+      toast(data.message, 'success', 'Check your email!');
+    },
+  });
+
   return (
     <Box
       display="flex"
@@ -38,8 +59,9 @@ function Login() {
         </Text>
         <Formik
           validationSchema={LoginFormSchema}
-          onSubmit={(_, formikProps) => {
+          onSubmit={(values, formikProps) => {
             formikProps.validateForm();
+            mutate(values as any);
           }}
           initialValues={initialValues}
         >
@@ -73,6 +95,8 @@ function Login() {
               <Button
                 icon="/icons/signup.svg"
                 iconPosition="left"
+                isLoading={isLoading}
+                isDisabled={!formik.isValid || isLoading || !formik.dirty}
                 onClick={() => formik.handleSubmit()}
                 styleVariants="base"
                 withIcon

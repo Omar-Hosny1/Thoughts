@@ -1,29 +1,28 @@
 import type { FlexProps } from '@chakra-ui/react';
-import {
-  Avatar,
-  Badge,
-  Box,
-  ButtonGroup,
-  Flex,
-  Tooltip,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Badge, Box, ButtonGroup, Flex, useDisclosure } from '@chakra-ui/react';
 import React from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { BiDotsVertical } from 'react-icons/bi';
 
 import type IThought from '@/utils/interfaces/thought';
+import type { ExtendedaUser } from '@/utils/interfaces/user';
 
 import Button from '../base/button';
 import Modal from '../base/modal';
 import TagsWrapper from './tags-wrapper';
 import Text from './text';
+import UserAvatar from './user-avatar';
 
 interface Props {
   thoughtStyling?: FlexProps | null;
   thought: IThought;
+  isAdmin: boolean;
+  userId: string;
 }
 
-function Thought({ thought, thoughtStyling }: Props) {
+function Thought({ thought, thoughtStyling, isAdmin, userId }: Props) {
   const { isOpen, onClose, onOpen } = useDisclosure();
+
   return (
     <Flex
       gap="15px"
@@ -32,36 +31,42 @@ function Thought({ thought, thoughtStyling }: Props) {
       cursor="pointer"
       borderBottomColor="secondary"
       borderBottomWidth="1px"
+      pos="relative"
       w="100%"
       {...thoughtStyling}
     >
+      {
+        // eslint-disable-next-line no-underscore-dangle
+        (thought.userId as ExtendedaUser)._id === userId ? (
+          <Box
+            pos="absolute"
+            right="0"
+            w="30px"
+            h="30px"
+            borderRadius="15px"
+            className="flex items-center justify-center"
+          >
+            <BiDotsVertical color="#1D1D1D" size="25px" />
+          </Box>
+        ) : null
+      }
+
       <Box display={{ base: 'none', md: 'initial' }}>
-        <Tooltip label="Ryan Florence" placement="right">
-          <Avatar
-            bg="secondary"
-            name="Ryan Florence"
-            src="https://bit.ly/ryan-florence"
-          />
-        </Tooltip>
+        <UserAvatar thought={thought} />
       </Box>
       <Box w="100%">
         <Flex gap="10px">
           <Box display={{ base: 'initial', md: 'none' }}>
-            <Tooltip label="Ryan Florence" placement="right">
-              <Avatar
-                bg="secondary"
-                name="Ryan Florence"
-                src="https://bit.ly/ryan-florence"
-              />
-            </Tooltip>
+            <UserAvatar thought={thought} />
           </Box>
           <Box>
             <Text fontSize="lg" lineHeight="1">
-              Omar Hosny
+              {(thought.userId as ExtendedaUser).name}
             </Text>
             <Text fontSize="12px" color="gray.300" lineHeight="1.3">
               {/* 10/24/2023 */}
-              {thought.publishedDate.toDateString()}
+              {new Date(thought.publishedDate).toDateString()}
+              {/* {thought.publishedDate.toDateString()} */}
             </Text>
           </Box>
           <Badge ml="1" h="fit-content" colorScheme="green">
@@ -74,7 +79,7 @@ function Thought({ thought, thoughtStyling }: Props) {
         <Box dangerouslySetInnerHTML={{ __html: thought.thoughtBody }} />
         <Box my="10px" />
         <TagsWrapper tags={thought.tags} isEditingMode={false} />
-        {thought.isAdmin ? (
+        {isAdmin ? (
           <>
             <Modal
               isOpen={isOpen}

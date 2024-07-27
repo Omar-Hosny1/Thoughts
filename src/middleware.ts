@@ -10,7 +10,7 @@ import {
 } from '../routes';
 
 const { auth } = NextAuth(authConfig);
-
+// disable
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedin = !!req.auth;
@@ -25,14 +25,15 @@ export default auth((req) => {
 
   if (isAuthRoutes) {
     if (isLoggedin) {
-      NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
-      return;
+      // eslint-disable-next-line consistent-return
+      return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
     return;
   }
 
   if (!isLoggedin && !isPublicRoutes) {
-    NextResponse.redirect(new URL(`/auth/login`, nextUrl));
+    // eslint-disable-next-line consistent-return
+    return NextResponse.redirect(new URL(`/auth/login`, nextUrl));
   }
 });
 

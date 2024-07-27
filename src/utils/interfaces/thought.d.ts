@@ -1,7 +1,8 @@
+import type { ExtendedaUser } from './user';
+
 interface IThought {
-  id: string;
-  userId: string;
-  isAdmin: boolean;
+  _id: string;
+  userId: string | ExtendedaUser;
   looks: number;
   reposts: number;
   isApproved: boolean;
