@@ -3,12 +3,17 @@ import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import React from 'react';
 import { GoHome, GoHomeFill } from 'react-icons/go';
+import { MdOutlinePending, MdPending } from 'react-icons/md';
+
+import { useCurrentUser } from '@/utils/hooks/use-current-user';
 
 import Button from '../base/button';
 import MenuItem from './menu-item';
 
 function MenusWrapper({ isCollapsed }: { isCollapsed: boolean }) {
   const router = useRouter();
+  const user = useCurrentUser();
+  const isAdmin = user?.userRole === 'admin';
   return (
     <>
       <Flex flexDir="column" gap="10px">
@@ -37,24 +42,15 @@ function MenusWrapper({ isCollapsed }: { isCollapsed: boolean }) {
         >
           Notifications
         </Button>
-        <Button
-          padding="24px"
-          roundedFlatFrom="right"
-          withIcon
-          w={isCollapsed ? '80px' : 'unset'}
-          hideChildren={isCollapsed}
-          gap={3}
-          styleText={{
-            fontSize: '17px',
-          }}
-          rounded="15px"
-          icon="/icons/more.svg"
-          iconPosition="left"
-          justifyContent="start"
-          iconSize={28}
-        >
-          Peinding Blogs
-        </Button>
+        {isAdmin ? (
+          <MenuItem
+            isCollapsed={isCollapsed}
+            route="/pending-thoughts"
+            menuName="Pending Blogs"
+            activeIcon={<MdPending size="35px" />}
+            nonActiveIcon={<MdOutlinePending size="35px" />}
+          />
+        ) : null}
         <Button
           padding="24px"
           roundedFlatFrom="right"
@@ -73,24 +69,26 @@ function MenusWrapper({ isCollapsed }: { isCollapsed: boolean }) {
         >
           Your Activity
         </Button>
-        <Button
-          padding="24px"
-          roundedFlatFrom="right"
-          withIcon
-          w={isCollapsed ? '80px' : 'unset'}
-          hideChildren={isCollapsed}
-          gap={3}
-          styleText={{
-            fontSize: '17px',
-          }}
-          rounded="15px"
-          icon="/icons/user.svg"
-          iconPosition="left"
-          justifyContent="start"
-          iconSize={28}
-        >
-          Users Statistics
-        </Button>
+        {isAdmin ? (
+          <Button
+            padding="24px"
+            roundedFlatFrom="right"
+            withIcon
+            w={isCollapsed ? '80px' : 'unset'}
+            hideChildren={isCollapsed}
+            gap={3}
+            styleText={{
+              fontSize: '17px',
+            }}
+            rounded="15px"
+            icon="/icons/user.svg"
+            iconPosition="left"
+            justifyContent="start"
+            iconSize={28}
+          >
+            Users Statistics
+          </Button>
+        ) : null}
         <Button
           padding="24px"
           display="flex"

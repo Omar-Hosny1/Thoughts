@@ -51,8 +51,13 @@ function AddThoughtForm() {
   const { mutate, isLoading } = useMutation(createThought, {
     onError: (error) => onErrorQueryHandler(error, toast),
     onSuccess(data) {
-      toast(data.message, 'success');
-      router.replace(`/thought/${data.thought.id}`);
+      if (data.thought.status === 'approved') {
+        toast(data.message, 'success');
+        router.replace(`/thought/${data.thought.id}`);
+      } else {
+        toast(data.message, 'success', 'Wait to be approved by the admin');
+        router.replace(`/home`);
+      }
     },
   });
 
@@ -191,7 +196,8 @@ function AddThoughtForm() {
                   isAdmin={false}
                   thought={{
                     id: '5',
-                    isApproved: true,
+                    rejectedDate: new Date(),
+                    status: 'approved',
                     approvedDate: null,
                     publishedDate: new Date(),
                     looks: 150,

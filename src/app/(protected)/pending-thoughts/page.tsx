@@ -1,17 +1,21 @@
-import { Box, Center } from '@chakra-ui/react';
+'use client';
+
+import { Center } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { getThoughts } from 'actions/thought';
-import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 
+import Header from '@/components/common/header';
+import MenusSection from '@/components/common/menus-section';
+import Text from '@/components/common/text';
+import Thought from '@/components/common/thought';
+import SearchSection from '@/components/home/search-section';
+import BaseLayout from '@/components/layouts/base-layout';
+import ThoughtSkeleton from '@/components/skeletons/thought-skeleton';
 import { onErrorQueryHandler } from '@/utils/helpers/on-error-query';
 import { useShowToast } from '@/utils/hooks/use-show-toast';
 import type IThought from '@/utils/interfaces/thought';
-
-import Text from '../common/text';
-import Thought from '../common/thought';
-import ThoughtSkeleton from '../skeletons/thought-skeleton';
 
 const MainUi = (
   thoughts: IThought[] | undefined,
@@ -20,7 +24,6 @@ const MainUi = (
 ) => {
   const session = useSession();
   const isAdmin = session.data?.user.userRole === 'admin';
-  const router = useRouter();
 
   if (isFetching) {
     return [1, 2, 3].map((e) => <ThoughtSkeleton key={e} />);
@@ -43,11 +46,6 @@ const MainUi = (
 
   return thoughts.map((e) => (
     <Thought
-      thoughtConfig={{
-        onClick: () => {
-          router.push(`thought/${e.id}`);
-        },
-      }}
       isAdmin={isAdmin}
       thought={e}
       key={e.id}
@@ -56,7 +54,7 @@ const MainUi = (
   ));
 };
 
-function ThoughtsWrapper() {
+function PendingBlogsPage() {
   const toast = useShowToast();
 
   const {
@@ -64,16 +62,19 @@ function ThoughtsWrapper() {
     isError,
     isFetching,
   } = useQuery({
-    queryFn: () => getThoughts('approved'),
-    queryKey: ['thoughts'],
+    queryFn: () => getThoughts('pending'),
+    queryKey: ['thoughts', 'pending'],
     onError: (error) => onErrorQueryHandler(error, toast),
   });
 
   return (
-    <Box overflowY="scroll" w="100%" padding="5px">
-      {MainUi(thoughts, isError, isFetching)}
-    </Box>
+    <BaseLayout
+      headerContent={<Header />}
+      mainSection={<>{MainUi(thoughts, isError, isFetching)}</>}
+      sectionStart={<MenusSection />}
+      sectionEnd={<SearchSection />}
+    />
   );
 }
 
-export default ThoughtsWrapper;
+export default PendingBlogsPage;

@@ -2,11 +2,12 @@ import type { ExtendedaUser } from './user';
 
 interface IThought {
   id: string;
-  userId: string | ExtendedaUser;
+  userId: ExtendedaUser | string;
   looks: number;
   reposts: number;
-  isApproved: boolean;
+  status: 'approved' | 'pending' | 'rejected';
   approvedDate: Date | null;
+  rejectedDate: Date | null;
   thoughtContent: string;
   tags: Array<string>;
   publishedDate: Date;

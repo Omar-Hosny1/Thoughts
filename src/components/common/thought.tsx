@@ -1,13 +1,18 @@
 import type { FlexProps } from '@chakra-ui/react';
 import { Badge, Box, ButtonGroup, Flex, useDisclosure } from '@chakra-ui/react';
-import React from 'react';
-import { BiDotsVertical } from 'react-icons/bi';
+import { useMutation } from '@tanstack/react-query';
+import { updateThoughtStatus } from 'actions/thought';
+import React, { useState } from 'react';
 
+import { onErrorQueryHandler } from '@/utils/helpers/on-error-query';
+import { useShowToast } from '@/utils/hooks/use-show-toast';
 import type IThought from '@/utils/interfaces/thought';
 import type { ExtendedaUser } from '@/utils/interfaces/user';
+import { queryClient } from '@/utils/query-client';
 
 import Button from '../base/button';
 import Modal from '../base/modal';
+import ThoughtMenuList from '../thought-menu-list';
 import TagsWrapper from './tags-wrapper';
 import Text from './text';
 import UserAvatar from './user-avatar';
@@ -20,7 +25,24 @@ interface Props {
 }
 
 function Thought({ thought, thoughtConfig, isAdmin, userId }: Props) {
+  const toast = useShowToast();
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const [selectedStatus, setSelectedStatus] = useState<IThought['status']>(
+    thought.status,
+  );
+
+  const { mutate, isLoading } = useMutation(
+    () => updateThoughtStatus(selectedStatus, thought.id),
+    {
+      onError: (error) => onErrorQueryHandler(error, toast),
+      onSuccess() {
+        queryClient.invalidateQueries(['thoughts', 'pending']);
+        toast(`Thought ${selectedStatus} successfuly!`, 'success');
+        onClose();
+      },
+    },
+  );
+
   return (
     <Flex
       gap="15px"
@@ -34,16 +56,7 @@ function Thought({ thought, thoughtConfig, isAdmin, userId }: Props) {
       {...thoughtConfig}
     >
       {(thought.userId as ExtendedaUser).id === userId ? (
-        <Box
-          pos="absolute"
-          right="0"
-          w="30px"
-          h="30px"
-          borderRadius="15px"
-          className="flex items-center justify-center"
-        >
-          <BiDotsVertical color="#1D1D1D" size="25px" />
-        </Box>
+        <ThoughtMenuList id={thought.id} />
       ) : null}
 
       <Box display={{ base: 'none', md: 'initial' }}>
@@ -59,9 +72,7 @@ function Thought({ thought, thoughtConfig, isAdmin, userId }: Props) {
               {(thought.userId as ExtendedaUser).name}
             </Text>
             <Text fontSize="12px" color="gray.300" lineHeight="1.3">
-              {/* 10/24/2023 */}
               {new Date(thought.createdDate).toDateString()}
-              {/* {thought.publishedDate.toDateString()} */}
             </Text>
           </Box>
           <Badge
@@ -85,13 +96,13 @@ function Thought({ thought, thoughtConfig, isAdmin, userId }: Props) {
 
         <Box my="10px" />
         <TagsWrapper tags={thought.tags} isEditingMode={false} />
-        {isAdmin ? (
+        {isAdmin && thought.status !== 'approved' ? (
           <>
             <Modal
               isOpen={isOpen}
               onClose={onClose}
               size="xl"
-              title="Are You Sure That You Want To Approve This?"
+              title={`Are You Sure That You Want To ${selectedStatus === 'approved' ? 'Approve' : 'Reject'} This?`}
             >
               <ButtonGroup
                 height="100px"
@@ -103,12 +114,20 @@ function Thought({ thought, thoughtConfig, isAdmin, userId }: Props) {
                 <Button
                   withIcon
                   icon="icons/approve.svg"
-                  styleVariants="base"
+                  styleVariants={
+                    selectedStatus === 'approved' ? 'base' : 'danger'
+                  }
                   iconPosition="left"
                   flex={1}
                   fontSize="lg"
+                  isLoading={isLoading}
+                  isDisabled={isLoading}
+                  onClick={() => {
+                    mutate();
+                  }}
                 >
-                  Approve Thought
+                  {`${selectedStatus === 'approved' ? 'Approve' : 'Reject'}`}
+                  Thought
                 </Button>
                 <Button
                   withIcon
@@ -116,6 +135,7 @@ function Thought({ thought, thoughtConfig, isAdmin, userId }: Props) {
                   styleVariants="outline"
                   iconPosition="left"
                   flex={1}
+                  isDisabled={isLoading}
                   onClick={onClose}
                   fontSize="lg"
                 >
@@ -139,7 +159,12 @@ function Thought({ thought, thoughtConfig, isAdmin, userId }: Props) {
                 p="10px"
                 fontSize="lg"
                 roundedFlatFrom="left"
-                onClick={onOpen}
+                onClick={() => {
+                  setSelectedStatus('approved');
+                  onOpen();
+                }}
+                isLoading={isLoading}
+                isDisabled={isLoading}
               >
                 Approve Thought
               </Button>
@@ -151,7 +176,13 @@ function Thought({ thought, thoughtConfig, isAdmin, userId }: Props) {
                 styleVariants="outline"
                 fontSize="lg"
                 roundedFlatFrom="left"
+                onClick={() => {
+                  setSelectedStatus('rejected');
+                  onOpen();
+                }}
                 iconPosition="left"
+                isLoading={isLoading}
+                isDisabled={isLoading}
               >
                 Reject Thought
               </Button>
