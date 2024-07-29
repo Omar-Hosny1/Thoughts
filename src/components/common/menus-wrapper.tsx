@@ -2,36 +2,23 @@ import { Box, Flex } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import React from 'react';
+import { GoHome, GoHomeFill } from 'react-icons/go';
 
 import Button from '../base/button';
+import MenuItem from './menu-item';
 
 function MenusWrapper({ isCollapsed }: { isCollapsed: boolean }) {
   const router = useRouter();
-
   return (
     <>
       <Flex flexDir="column" gap="10px">
-        <Button
-          padding="24px"
-          roundedFlatFrom="right"
-          withIcon
-          w={isCollapsed ? '80px' : 'unset'}
-          hideChildren={isCollapsed}
-          icon="/icons/home.svg"
-          iconPosition="left"
-          onClick={() => {
-            router.push('/home');
-          }}
-          justifyContent="start"
-          iconSize={28}
-          rounded="15px"
-          gap={3}
-          styleText={{
-            fontSize: '17px',
-          }}
-        >
-          Your Home
-        </Button>
+        <MenuItem
+          isCollapsed={isCollapsed}
+          route="/home"
+          menuName="Your Home"
+          activeIcon={<GoHomeFill size="35px" />}
+          nonActiveIcon={<GoHome size="35px" />}
+        />
         <Button
           padding="24px"
           roundedFlatFrom="right"
@@ -114,6 +101,9 @@ function MenusWrapper({ isCollapsed }: { isCollapsed: boolean }) {
           gap={3}
           styleText={{
             fontSize: '17px',
+          }}
+          onClick={() => {
+            router.push('/add-thought');
           }}
           rounded="15px"
           icon="/icons/edit-dark.svg"

@@ -6,7 +6,9 @@ export const useShowToast = () => {
   const showToast = (
     description: string,
     status: 'info' | 'warning' | 'success' | 'error' | 'loading' | undefined,
-    title: string = 'Something went wrong!',
+    title: string = status === 'error'
+      ? 'Something went wrong!'
+      : 'Done successfuly!',
     duration = 5000,
     isClosable = true,
   ) => {

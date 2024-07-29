@@ -6,7 +6,7 @@ interface IUser {
   gender: 'male' | 'female';
   email: string;
   interests: string[];
-  _id: string;
+  id: string;
   userRole: 'user' | 'admin';
   emailVerified: boolean;
   token: string;

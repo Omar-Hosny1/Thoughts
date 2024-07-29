@@ -1,14 +1,13 @@
 import type { ExtendedaUser } from './user';
 
 interface IThought {
-  _id: string;
+  id: string;
   userId: string | ExtendedaUser;
   looks: number;
   reposts: number;
   isApproved: boolean;
   approvedDate: Date | null;
-  thoughtTitle: string;
-  thoughtBody: string;
+  thoughtContent: string;
   tags: Array<string>;
   publishedDate: Date;
   createdDate: Date;

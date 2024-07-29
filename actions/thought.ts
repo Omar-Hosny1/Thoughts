@@ -28,3 +28,15 @@ export const getThoughts = async () => {
 
   return res.data.thoughts as Array<IThought>;
 };
+
+export const getThoughtById = async (id: string) => {
+  const session = await getSession();
+  const res = await axiosExternal.get(
+    `thoughts/${id}?userId=${session?.user.id}`,
+    {
+      headers: { Authorization: `Barrer ${session?.user.token}` },
+    },
+  );
+
+  return res.data.thought as IThought;
+};

@@ -1,7 +1,6 @@
 import type { FlexProps } from '@chakra-ui/react';
 import { Badge, Box, ButtonGroup, Flex, useDisclosure } from '@chakra-ui/react';
 import React from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { BiDotsVertical } from 'react-icons/bi';
 
 import type IThought from '@/utils/interfaces/thought';
@@ -14,15 +13,14 @@ import Text from './text';
 import UserAvatar from './user-avatar';
 
 interface Props {
-  thoughtStyling?: FlexProps | null;
+  thoughtConfig?: FlexProps | null;
   thought: IThought;
   isAdmin: boolean;
   userId: string;
 }
 
-function Thought({ thought, thoughtStyling, isAdmin, userId }: Props) {
+function Thought({ thought, thoughtConfig, isAdmin, userId }: Props) {
   const { isOpen, onClose, onOpen } = useDisclosure();
-
   return (
     <Flex
       gap="15px"
@@ -33,23 +31,20 @@ function Thought({ thought, thoughtStyling, isAdmin, userId }: Props) {
       borderBottomWidth="1px"
       pos="relative"
       w="100%"
-      {...thoughtStyling}
+      {...thoughtConfig}
     >
-      {
-        // eslint-disable-next-line no-underscore-dangle
-        (thought.userId as ExtendedaUser)._id === userId ? (
-          <Box
-            pos="absolute"
-            right="0"
-            w="30px"
-            h="30px"
-            borderRadius="15px"
-            className="flex items-center justify-center"
-          >
-            <BiDotsVertical color="#1D1D1D" size="25px" />
-          </Box>
-        ) : null
-      }
+      {(thought.userId as ExtendedaUser).id === userId ? (
+        <Box
+          pos="absolute"
+          right="0"
+          w="30px"
+          h="30px"
+          borderRadius="15px"
+          className="flex items-center justify-center"
+        >
+          <BiDotsVertical color="#1D1D1D" size="25px" />
+        </Box>
+      ) : null}
 
       <Box display={{ base: 'none', md: 'initial' }}>
         <UserAvatar thought={thought} />
@@ -65,18 +60,29 @@ function Thought({ thought, thoughtStyling, isAdmin, userId }: Props) {
             </Text>
             <Text fontSize="12px" color="gray.300" lineHeight="1.3">
               {/* 10/24/2023 */}
-              {new Date(thought.publishedDate).toDateString()}
+              {new Date(thought.createdDate).toDateString()}
               {/* {thought.publishedDate.toDateString()} */}
             </Text>
           </Box>
-          <Badge ml="1" h="fit-content" colorScheme="green">
-            New
+          <Badge
+            ml="1"
+            h="fit-content"
+            colorScheme={
+              (thought.userId as ExtendedaUser).userRole === 'admin'
+                ? 'blue'
+                : 'green'
+            }
+          >
+            {(thought.userId as ExtendedaUser).userRole === 'admin'
+              ? 'Admin'
+              : 'User'}
           </Badge>
         </Flex>
-        <Text fontSize="x-large" color="#C8C8C8" mt="10px" lineHeight={1.3}>
-          {thought.thoughtTitle}
-        </Text>
-        <Box dangerouslySetInnerHTML={{ __html: thought.thoughtBody }} />
+        <Box
+          color="white !important"
+          dangerouslySetInnerHTML={{ __html: thought.thoughtContent }}
+        />
+
         <Box my="10px" />
         <TagsWrapper tags={thought.tags} isEditingMode={false} />
         {isAdmin ? (

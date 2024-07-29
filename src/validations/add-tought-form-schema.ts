@@ -12,11 +12,7 @@ function extractTextFromHtml(htmlContent: string): string {
 }
 
 const AddThoughtSchema = Yup.object({
-  thoughtTitle: Yup.string()
-    .trim()
-    .min(0, "This Field Can't Be Empty")
-    .required('Please Enter Your Thought Title'),
-  thoughtBody: Yup.string()
+  thoughtContent: Yup.string()
     .trim()
     .test('htmlContent', 'Please Enter Your Thought Body', (value) => {
       const textContent = extractTextFromHtml(value || '');

@@ -27,6 +27,7 @@ function UserMenu() {
       <Tooltip label={user?.name || 'N/A'} placement="bottom">
         <Avatar
           bg="secondary"
+          color="primary"
           name={user?.name || 'N/A'}
           src={user?.image || undefined}
         />

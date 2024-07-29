@@ -2,8 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
+/* index.css */
+@font-face {
+  font-family: "Jua";
+  src: url("/fonts/Jua/Jua-Regular.ttf");
+}    
+* {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal; 
+} 
 
 /* width */
 ::-webkit-scrollbar {
@@ -44,10 +53,12 @@
   background: #007bff; /* Custom background color */
   color: #ffffff; /* Custom text color (white) */
 }
+.joditor .jodit-wysiwyg {
+  caret-color: white; /* Change to your desired color */
+  color: white;
+}
 
 option {
   background: #1d1d1d !important;
 }
-
-
 

@@ -15,7 +15,7 @@ interface Props extends ButtonProps {
   styleVariants?: ButtonStyleVariants;
   withIcon?: boolean;
   iconPosition?: 'right' | 'left';
-  icon?: string;
+  icon?: string | React.ReactElement;
   iconSize?: number;
   styleText?: GLobalTextProps;
   hideChildren?: boolean;
@@ -83,13 +83,21 @@ function Button({
     }
     if (iconPosition === 'left') {
       return {
-        leftIcon: (
-          <Image src={icon} alt="" width={iconSize} height={iconSize} />
-        ),
+        leftIcon:
+          typeof icon === 'string' ? (
+            <Image src={icon} alt="" width={iconSize} height={iconSize} />
+          ) : (
+            icon
+          ),
       };
     }
     return {
-      rightIcon: <Image src={icon} alt="" width={iconSize} height={iconSize} />,
+      rightIcon:
+        typeof icon === 'string' ? (
+          <Image src={icon} alt="" width={iconSize} height={iconSize} />
+        ) : (
+          icon
+        ),
     };
   };
 

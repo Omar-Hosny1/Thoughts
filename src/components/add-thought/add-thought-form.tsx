@@ -3,15 +3,16 @@
 import { Box, FormLabel, useDisclosure } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { createThought } from 'actions/thought';
-import type { AxiosError } from 'axios';
 import { ErrorMessage, FieldArray, Formik } from 'formik';
 import { motion } from 'framer-motion';
 import type { IJoditEditorProps } from 'jodit-react';
 import JoditEditor from 'jodit-react';
+import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
+import type * as yup from 'yup';
 
+import { onErrorQueryHandler } from '@/utils/helpers/on-error-query';
 import { useShowToast } from '@/utils/hooks/use-show-toast';
-import type AddThoughtFormType from '@/utils/types/AddThoughtForm';
 import AddThoughtSchema from '@/validations/add-tought-form-schema';
 
 import Button from '../base/button';
@@ -20,32 +21,38 @@ import Modal from '../base/modal';
 import TagsWrapper from '../common/tags-wrapper';
 import Thought from '../common/thought';
 
-const initialValues: AddThoughtFormType = {
-  thoughtBody: '',
+const initialValues: yup.InferType<typeof AddThoughtSchema> = {
+  thoughtContent: '',
   tags: [],
-  thoughtTitle: '',
 };
 
 function AddThoughtForm() {
   const toast = useShowToast();
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const router = useRouter();
+
   const config: IJoditEditorProps['config'] = useMemo(
     () => ({
+      iframe: false,
       placeholder: 'immerse your self...',
       style: {
         backgroundColor: '#1D1D1D',
       },
+      removeButtons: ['brush'],
       className: 'joditor',
       readonly: false,
       cache: true,
+      defaultActionOnPaste: 'insert_only_text',
+      colorPickerDefaultTab: 'color',
+      colors: [],
     }),
     [],
   );
   const { mutate, isLoading } = useMutation(createThought, {
-    onError: (error: AxiosError) => {
-      toast((error.response?.data as any).message, 'error');
-    },
-    onSuccess() {
-      toast('ADDED', 'success');
+    onError: (error) => onErrorQueryHandler(error, toast),
+    onSuccess(data) {
+      toast(data.message, 'success');
+      router.replace(`/thought/${data.thought.id}`);
     },
   });
 
@@ -64,9 +71,7 @@ function AddThoughtForm() {
       (e.target as any).value = '';
     }
   }
-  const { isOpen, onClose, onOpen } = useDisclosure();
   return (
-    // <Box paddingStart="10px" h="100%" overflow="scroll">
     <Formik
       validationSchema={AddThoughtSchema}
       initialValues={initialValues}
@@ -78,48 +83,20 @@ function AddThoughtForm() {
       {(formik) => {
         return (
           <Box p="10px" w="100%">
-            <FormLabel
-              mb="5px"
-              htmlFor="thoughtTitle"
-              fontSize="18px"
-              color="secondary"
-            >
-              Thought Title
-            </FormLabel>
-            <Input
-              w="100%"
-              color="secondary"
-              roundedFlatFrom="none"
-              placeholder="Share Your Thoughts Now"
-              _placeholder={{
-                color: 'grey',
-                fontSize: '13px',
-              }}
-              mb="5px"
-              {...formik.getFieldProps('thoughtTitle')}
-            />
-            <ErrorMessage
-              name="thoughtTitle"
-              component="span"
-              className="error-msg"
-            />
-
             <FormLabel mb="5px" fontSize="18px" color="secondary">
-              Thought Body
+              Thought Content
             </FormLabel>
             <JoditEditor
               config={config}
               onBlur={(newValue) => {
-                formik.setFieldValue('thoughtBody', newValue);
-                if (formik.touched.thoughtBody !== true) {
-                  formik.setFieldTouched('thoughtBody', true);
-                }
+                formik.setFieldTouched('thoughtContent', true);
+                formik.setFieldValue('thoughtContent', newValue);
               }}
-              value={formik.values.thoughtBody}
+              value={formik.values.thoughtContent || ''}
             />
             <Box h="5px" />
             <ErrorMessage
-              name="thoughtBody"
+              name="thoughtContent"
               component="span"
               className="error-msg"
             />
@@ -184,7 +161,7 @@ function AddThoughtForm() {
               mt="10px !important"
               iconSize={28}
             >
-              Preview Thought
+              Preview Thought Before Publishing
             </Button>
             <Modal
               addCloseBtn={false}
@@ -206,14 +183,14 @@ function AddThoughtForm() {
               >
                 <Thought
                   userId=""
-                  thoughtStyling={{
+                  thoughtConfig={{
                     borderBottomWidth: 0,
                     bg: 'primary',
                     overflowY: 'scroll',
                   }}
                   isAdmin={false}
                   thought={{
-                    _id: '5',
+                    id: '5',
                     isApproved: true,
                     approvedDate: null,
                     publishedDate: new Date(),
@@ -222,8 +199,7 @@ function AddThoughtForm() {
                     createdDate: new Date(),
                     userId: 'sda',
                     tags: formik.values.tags,
-                    thoughtBody: formik.values.thoughtBody,
-                    thoughtTitle: formik.values.thoughtTitle,
+                    thoughtContent: formik.values.thoughtContent || 's',
                   }}
                 />
               </motion.div>
