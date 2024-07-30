@@ -43,7 +43,8 @@ const MainUi = (
 
   return thoughts.map((e) => (
     <Thought
-      thoughtConfig={{
+      thoughtContentConfig={{
+        cursor: 'pointer',
         onClick: () => {
           router.push(`thought/${e.id}`);
         },

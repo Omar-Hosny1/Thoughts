@@ -1,4 +1,4 @@
-import type { FlexProps } from '@chakra-ui/react';
+import type { BoxProps, FlexProps } from '@chakra-ui/react';
 import { Badge, Box, ButtonGroup, Flex, useDisclosure } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { updateThoughtStatus } from 'actions/thought';
@@ -19,12 +19,19 @@ import UserAvatar from './user-avatar';
 
 interface Props {
   thoughtConfig?: FlexProps | null;
+  thoughtContentConfig?: BoxProps | null;
   thought: IThought;
   isAdmin: boolean;
   userId: string;
 }
 
-function Thought({ thought, thoughtConfig, isAdmin, userId }: Props) {
+function Thought({
+  thought,
+  thoughtConfig,
+  isAdmin,
+  userId,
+  thoughtContentConfig,
+}: Props) {
   const toast = useShowToast();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [selectedStatus, setSelectedStatus] = useState<IThought['status']>(
@@ -48,7 +55,6 @@ function Thought({ thought, thoughtConfig, isAdmin, userId }: Props) {
       gap="15px"
       transition="0.3s"
       p="15px"
-      cursor="pointer"
       borderBottomColor="secondary"
       borderBottomWidth="1px"
       pos="relative"
@@ -92,6 +98,7 @@ function Thought({ thought, thoughtConfig, isAdmin, userId }: Props) {
         <Box
           color="white !important"
           dangerouslySetInnerHTML={{ __html: thought.thoughtContent }}
+          {...thoughtContentConfig}
         />
 
         <Box my="10px" />

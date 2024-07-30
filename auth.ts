@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import NextAuth from 'next-auth';
 
 import authConfig from './auth.config';
@@ -12,7 +13,7 @@ export const {
     signIn: '/auth/login',
     error: '/auth/error',
   },
-  session: { strategy: 'jwt' },
+  session: { strategy: 'jwt', maxAge: 30 * 24 * 60 * 60 - 60 * 5 },
   callbacks: {
     async jwt({ token, user, trigger }) {
       if (trigger === 'signIn') {
@@ -24,19 +25,10 @@ export const {
     async session({ session, token }) {
       // eslint-disable-next-line no-param-reassign
       session.user = token.user as any;
-      // const decodedToken = jwt.decode(session.user.token) as jwt.JwtPayload;
-      // // Check if the token has expired
-      // const currentTime = Math.floor(Date.now() / 1000); // Current time in Unix time
-      // if (decodedToken.exp && decodedToken.exp < currentTime) {
-      //   // Token has expired
-      //   // You can handle the expired token case here
-      //   console.log('Token has expired');
-      //   // signOut();
-      //   // throw new Error('ACCESS DENIED TOKEN EXP');
-      //   // s();
-      //   // signOut();
-      //   // signOut({ redirectTo: '/auth/login?message=session_expired' });
-      // }
+      const backEndToken = session.user.token;
+      if (backEndToken) {
+        jwt.verify(backEndToken, process.env.AUTH_SECRET!);
+      }
       return session;
     },
   },
