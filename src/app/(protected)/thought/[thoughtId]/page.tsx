@@ -41,6 +41,9 @@ const MainUi = (
       isAdmin={isAdmin}
       thought={thought}
       userId={session.data?.user.id!}
+      thoughtConfig={{
+        borderBottom: '0',
+      }}
     />
   );
 };

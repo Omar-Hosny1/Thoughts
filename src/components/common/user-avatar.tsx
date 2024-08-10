@@ -1,21 +1,24 @@
 import { Avatar, Tooltip } from '@chakra-ui/react';
 import React from 'react';
 
-import type IThought from '@/utils/interfaces/thought';
-import type { ExtendedaUser } from '@/utils/interfaces/user';
+import { useThemeColor } from '@/utils/theme/theme-colors-provider';
 
-function UserAvatar({ thought }: { thought: IThought }) {
+interface UserAvatarProps {
+  tooltipLabel: string;
+  userName: string;
+  imageSrc?: string | undefined;
+}
+
+function UserAvatar({ imageSrc, tooltipLabel, userName }: UserAvatarProps) {
+  const { primaryColor, secondaryColor } = useThemeColor();
+
   return (
-    <Tooltip label={(thought.userId as ExtendedaUser).name} placement="bottom">
+    <Tooltip label={tooltipLabel}>
       <Avatar
-        bg="secondary"
-        color="primary"
-        name={(thought.userId as ExtendedaUser).name}
-        src={
-          (thought.userId as ExtendedaUser).image
-            ? (thought.userId as ExtendedaUser).image!
-            : undefined
-        }
+        bg={secondaryColor}
+        color={primaryColor}
+        name={userName}
+        src={imageSrc}
       />
     </Tooltip>
   );

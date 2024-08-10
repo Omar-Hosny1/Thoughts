@@ -3,15 +3,18 @@
 import { Box, Flex } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
+import { useThemeColor } from '@/utils/theme/theme-colors-provider';
+
 import MenusWrapper from './menus-wrapper';
 
 function MenusSection() {
-  const initialWidth: number = 100;
+  const initialWidth: number = 400;
   const maxWidth: number = 400;
 
   const [width, setWidth] = useState(initialWidth);
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
+  const { secondaryColor } = useThemeColor();
 
   const handleResize = (e: MouseEvent) => {
     const newWidth = e.clientX;
@@ -46,7 +49,7 @@ function MenusSection() {
       pe="10px"
       flexDir="column"
       pos="relative"
-      borderEndColor="secondary"
+      borderEndColor={secondaryColor}
       borderEndWidth="1px"
       justifyContent="space-between"
       width={isCollapsed ? `${initialWidth}px` : `${width}px`}
@@ -57,9 +60,9 @@ function MenusSection() {
         transition="all 0.3s"
         onMouseDown={startResizing}
         width="4px"
-        backgroundColor={isResizing ? 'secondary' : 'none'}
+        backgroundColor={isResizing ? secondaryColor : 'none'}
         _hover={{
-          backgroundColor: 'secondary',
+          backgroundColor: secondaryColor,
         }}
         cursor="ew-resize"
         position="absolute"

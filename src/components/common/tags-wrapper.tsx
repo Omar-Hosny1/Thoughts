@@ -2,6 +2,8 @@ import { Flex, Tag, TagCloseButton, TagLabel } from '@chakra-ui/react';
 import type { FieldArrayRenderProps } from 'formik';
 import React from 'react';
 
+import { useThemeColor } from '@/utils/theme/theme-colors-provider';
+
 interface Props {
   tags: string[];
   formik?: FieldArrayRenderProps;
@@ -9,11 +11,13 @@ interface Props {
 }
 
 function TagsWrapper({ tags, formik, isEditingMode = true }: Props) {
+  const { primaryColor, secondaryColor } = useThemeColor();
+
   return (
     <Flex gap={4}>
       {tags.map((tag, index) => (
         <Tag
-          bg="secondary"
+          bg={secondaryColor}
           key={tag}
           onClick={() => {
             formik?.remove(index);
@@ -22,8 +26,8 @@ function TagsWrapper({ tags, formik, isEditingMode = true }: Props) {
           variant="solid"
           colorScheme="blue"
         >
-          <TagLabel color="primary">{tag}</TagLabel>
-          {isEditingMode ? <TagCloseButton color="primary" /> : null}
+          <TagLabel color={primaryColor}>{tag}</TagLabel>
+          {isEditingMode ? <TagCloseButton color={primaryColor} /> : null}
         </Tag>
       ))}
     </Flex>

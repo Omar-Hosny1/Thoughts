@@ -2,17 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* index.css */
 @font-face {
-  font-family: "Jua";
-  src: url("/fonts/Jua/Jua-Regular.ttf");
-}    
+  font-family: 'Jua';
+  src: url('/fonts/Jua/Jua-Regular.ttf');
+}
 * {
-  font-family: "Jua", sans-serif;
+  font-family: 'Jua', sans-serif;
   font-weight: 400;
-  font-style: normal; 
-} 
+  font-style: normal;
+}
 
 /* width */
 ::-webkit-scrollbar {
@@ -41,7 +40,7 @@
 }
 
 .jodit-toolbar-editor-collection_size_middle.jodit-toolbar-editor-collection_mode_horizontal {
-  background-color: #eee5e9;
+  background-color: white;
 }
 
 .error-msg {
@@ -50,8 +49,8 @@
 }
 
 .jodit-wysiwyg ::selection {
-  background: #007bff; /* Custom background color */
-  color: #ffffff; /* Custom text color (white) */
+  background: #007bff; /*  Custom background color */
+  color: #ffffff; /*  Custom text color (white ) */
 }
 .joditor .jodit-wysiwyg {
   caret-color: white; /* Change to your desired color */
@@ -61,4 +60,3 @@
 option {
   background: #1d1d1d !important;
 }
-

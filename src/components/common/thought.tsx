@@ -9,6 +9,7 @@ import { useShowToast } from '@/utils/hooks/use-show-toast';
 import type IThought from '@/utils/interfaces/thought';
 import type { ExtendedaUser } from '@/utils/interfaces/user';
 import { queryClient } from '@/utils/query-client';
+import { useThemeColor } from '@/utils/theme/theme-colors-provider';
 
 import Button from '../base/button';
 import Modal from '../base/modal';
@@ -32,6 +33,8 @@ function Thought({
   userId,
   thoughtContentConfig,
 }: Props) {
+  const { secondaryColor } = useThemeColor();
+
   const toast = useShowToast();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [selectedStatus, setSelectedStatus] = useState<IThought['status']>(
@@ -55,7 +58,7 @@ function Thought({
       gap="15px"
       transition="0.3s"
       p="15px"
-      borderBottomColor="secondary"
+      borderBottomColor={secondaryColor}
       borderBottomWidth="1px"
       pos="relative"
       w="100%"
@@ -66,12 +69,20 @@ function Thought({
       ) : null}
 
       <Box display={{ base: 'none', md: 'initial' }}>
-        <UserAvatar thought={thought} />
+        <UserAvatar
+          tooltipLabel={(thought.userId as ExtendedaUser).name}
+          userName={(thought.userId as ExtendedaUser).name}
+          imageSrc={(thought.userId as ExtendedaUser).image || undefined}
+        />
       </Box>
       <Box w="100%">
         <Flex gap="10px">
           <Box display={{ base: 'initial', md: 'none' }}>
-            <UserAvatar thought={thought} />
+            <UserAvatar
+              tooltipLabel={(thought.userId as ExtendedaUser).name}
+              userName={(thought.userId as ExtendedaUser).name}
+              imageSrc={(thought.userId as ExtendedaUser).image || undefined}
+            />
           </Box>
           <Box>
             <Text fontSize="lg" lineHeight="1">
@@ -96,7 +107,6 @@ function Thought({
           </Badge>
         </Flex>
         <Box
-          color="white !important"
           dangerouslySetInnerHTML={{ __html: thought.thoughtContent }}
           {...thoughtContentConfig}
         />
@@ -207,7 +217,7 @@ function Thought({
               icon="/icons/views.svg"
               p={0}
               styleText={{
-                color: 'secondary',
+                color: secondaryColor,
               }}
               styleVariants="none"
             >
@@ -220,7 +230,7 @@ function Thought({
               p={0}
               bg={{}}
               styleText={{
-                color: 'secondary',
+                color: secondaryColor,
               }}
               styleVariants="none"
             >

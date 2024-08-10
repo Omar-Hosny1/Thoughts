@@ -15,8 +15,13 @@ import { BiDotsVertical } from 'react-icons/bi';
 import { onErrorQueryHandler } from '@/utils/helpers/on-error-query';
 import { useShowToast } from '@/utils/hooks/use-show-toast';
 import { queryClient } from '@/utils/query-client';
+import { useThemeColor } from '@/utils/theme/theme-colors-provider';
+
+import Text from './common/text';
 
 function ThoughtMenuList({ id }: { id: string }) {
+  const { primaryColor, secondaryColor } = useThemeColor();
+
   const toast = useShowToast();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const router = useRouter();
@@ -41,12 +46,14 @@ function ThoughtMenuList({ id }: { id: string }) {
         borderRadius="15px"
         className="flex items-center justify-center"
       >
-        <BiDotsVertical color="#EEE5E9" size="25px" />
+        <BiDotsVertical color={secondaryColor} size="25px" />
       </MenuButton>
       <MenuList>
-        <MenuItem color="primary">Edit</MenuItem>
-        <MenuItem color="primary" onClick={() => deleteThought()}>
-          Remove
+        <MenuItem color={primaryColor}>
+          <Text>Edit</Text>
+        </MenuItem>
+        <MenuItem color={primaryColor} onClick={() => deleteThought()}>
+          <Text>Remove</Text>
         </MenuItem>
       </MenuList>
     </Menu>

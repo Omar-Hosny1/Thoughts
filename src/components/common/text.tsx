@@ -1,5 +1,5 @@
 import type { TextProps } from '@chakra-ui/react';
-import { Text as ChakraText } from '@chakra-ui/react';
+import { Text as ChakraText, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 
 export interface GLobalTextProps extends TextProps {
@@ -7,7 +7,12 @@ export interface GLobalTextProps extends TextProps {
 }
 
 function Text({ themeColor = 'secondary', ...props }: GLobalTextProps) {
-  return <ChakraText color={themeColor} fontWeight="light" {...props} />;
+  const primaryColor = useColorModeValue('primary.light', 'primary.dark');
+  const secondaryColor = useColorModeValue('secondary.light', 'secondary.dark');
+
+  const selectedColor =
+    themeColor === 'primary' ? primaryColor : secondaryColor;
+  return <ChakraText color={selectedColor} fontWeight="light" {...props} />;
 }
 
 export default Text;

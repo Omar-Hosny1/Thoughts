@@ -9,6 +9,8 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 
+import { useThemeColor } from '@/utils/theme/theme-colors-provider';
+
 import Text from '../common/text';
 
 interface Props extends ModalProps {
@@ -26,6 +28,8 @@ function Modal({
   addCloseBtn = true,
   ...props
 }: Props) {
+  const { primaryColor } = useThemeColor();
+
   return (
     <BaseModal isCentered {...props}>
       {addNiceOverly ? (
@@ -39,7 +43,7 @@ function Modal({
         <ModalOverlay />
       )}
       <ModalContent
-        bg="#232323"
+        bg={primaryColor}
         mx="30px"
         rounded="2xl"
         pb="10px"

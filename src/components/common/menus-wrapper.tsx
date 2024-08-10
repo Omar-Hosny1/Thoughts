@@ -2,8 +2,11 @@ import { Box, Flex } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import React from 'react';
+import { FiActivity } from 'react-icons/fi';
 import { GoHome, GoHomeFill } from 'react-icons/go';
 import { MdOutlinePending, MdPending } from 'react-icons/md';
+import { PiPaperPlaneBold } from 'react-icons/pi';
+import { RiNotification3Line } from 'react-icons/ri';
 
 import { useCurrentUser } from '@/utils/hooks/use-current-user';
 
@@ -30,7 +33,7 @@ function MenusWrapper({ isCollapsed }: { isCollapsed: boolean }) {
           withIcon
           w={isCollapsed ? '80px' : 'unset'}
           hideChildren={isCollapsed}
-          icon="/icons/notifications.svg"
+          icon={<RiNotification3Line size="35px" />}
           iconPosition="left"
           justifyContent="start"
           iconSize={28}
@@ -62,7 +65,7 @@ function MenusWrapper({ isCollapsed }: { isCollapsed: boolean }) {
             fontSize: '17px',
           }}
           rounded="15px"
-          icon="/icons/activity.svg"
+          icon={<FiActivity size="30px" />}
           iconPosition="left"
           justifyContent="start"
           iconSize={28}
@@ -104,14 +107,14 @@ function MenusWrapper({ isCollapsed }: { isCollapsed: boolean }) {
             router.push('/add-thought');
           }}
           rounded="15px"
-          icon="/icons/edit-dark.svg"
+          icon={<PiPaperPlaneBold size="30px" />}
           iconPosition="left"
           justifyContent="start"
           styleVariants="base"
           iconSize={28}
           color="primary"
         >
-          Write Thought
+          Write a Thought
         </Button>
       </Flex>
       <Box h="10px" />

@@ -3,6 +3,7 @@ import { Button as BaseButton } from '@chakra-ui/react';
 import Image from 'next/image';
 import React from 'react';
 
+import { useThemeColor } from '@/utils/theme/theme-colors-provider';
 import type { RoundedFlatFrom } from '@/utils/types/RoundedFlatFrom';
 
 import type { GLobalTextProps } from '../common/text';
@@ -21,50 +22,6 @@ interface Props extends ButtonProps {
   hideChildren?: boolean;
 }
 
-function getStyleVariant(style: ButtonStyleVariants) {
-  switch (style) {
-    case 'base':
-      return {
-        _hover: {
-          bgColor: '#C9C9C9',
-        },
-        color: 'primary',
-        bgColor: 'secondary',
-        borderWidth: '1px',
-        borderColor: 'secondary',
-      };
-    case 'danger':
-      return {
-        color: 'white',
-        bgColor: 'danger',
-      };
-    case 'success':
-      return {
-        color: 'white',
-        bgColor: 'success',
-      };
-    case 'outline':
-      return {
-        _hover: {
-          bgColor: 'black',
-        },
-        color: 'secondary',
-        borderWidth: '1px',
-        borderColor: 'secondary',
-        bgColor: 'primary',
-      };
-    case 'none':
-      return {
-        bgColor: 'transparent',
-        _hover: {
-          bgColor: 'transparent',
-        },
-      };
-    default:
-      return {};
-  }
-}
-
 function Button({
   styleVariants = 'outline',
   roundedFlatFrom = 'none',
@@ -77,6 +34,52 @@ function Button({
   hideChildren = false,
   ...props
 }: Props) {
+  const { primaryColor, secondaryColor } = useThemeColor();
+
+  function getStyleVariant(style: ButtonStyleVariants) {
+    switch (style) {
+      case 'base':
+        return {
+          _hover: {
+            // bgColor: '#C9C9C9',
+          },
+          color: primaryColor,
+          bgColor: secondaryColor,
+          borderWidth: '1px',
+          borderColor: secondaryColor,
+        };
+      case 'danger':
+        return {
+          color: 'white',
+          bgColor: 'danger',
+        };
+      case 'success':
+        return {
+          color: 'white',
+          bgColor: 'success',
+        };
+      case 'outline':
+        return {
+          _hover: {
+            // bgColor: 'black',
+          },
+          color: secondaryColor,
+          borderWidth: '1px',
+          borderColor: secondaryColor,
+          bgColor: primaryColor,
+        };
+      case 'none':
+        return {
+          bgColor: 'transparent',
+          _hover: {
+            // bgColor: 'transparent',
+          },
+        };
+      default:
+        return {};
+    }
+  }
+
   const handleIconLogic = () => {
     if (!withIcon) {
       return {};
@@ -118,7 +121,7 @@ function Button({
       {...props}
     >
       <Text
-        color={styleVariants === 'base' ? 'primary' : styleText?.color}
+        color={styleVariants === 'base' ? primaryColor : styleText?.color}
         {...styleText}
       >
         {!hideChildren ? children : null}
