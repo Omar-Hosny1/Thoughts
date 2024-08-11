@@ -2,42 +2,65 @@
 
 import { Box, FormLabel } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import { createThought } from 'actions/thought';
+import { createThought, updateThought } from 'actions/thought';
 import { ErrorMessage, FieldArray, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import type * as yup from 'yup';
 
 import { onErrorQueryHandler } from '@/utils/helpers/on-error-query';
 import { useShowToast } from '@/utils/hooks/use-show-toast';
+import type IThought from '@/utils/interfaces/thought';
+import { queryClient } from '@/utils/query-client';
 import AddThoughtSchema from '@/validations/add-tought-form-schema';
 
 import Button from '../base/button';
 import Input from '../base/input';
 import TagsWrapper from '../common/tags-wrapper';
+// eslint-disable-next-line import/no-cycle
 import PreviewThougth from './preview-thougth';
+// import PreviewThougth from './preview-thougth';
 import ThoughtContentInput from './thought-content-input';
 
-const initialValues: yup.InferType<typeof AddThoughtSchema> = {
-  thoughtContent: '',
-  tags: [],
-};
+interface AddThoughtFormProps {
+  editedThought?: IThought;
+  onCloseEditModal?: () => void;
+}
 
-function AddThoughtForm() {
+function AddThoughtForm({
+  editedThought,
+  onCloseEditModal,
+}: AddThoughtFormProps) {
   const toast = useShowToast();
   const router = useRouter();
+  const initialValues: yup.InferType<typeof AddThoughtSchema> = {
+    thoughtContent: editedThought?.thoughtContent || '',
+    tags: editedThought?.tags || [],
+  };
 
-  const { mutate, isLoading } = useMutation(createThought, {
-    onError: (error) => onErrorQueryHandler(error, toast),
-    onSuccess(data) {
-      if (data.thought.status === 'approved') {
+  const { mutate: mutateCreateThought, isLoading: createThoughtIsLoading } =
+    useMutation(createThought, {
+      onError: (error) => onErrorQueryHandler(error, toast),
+      onSuccess(data) {
+        if (data.thought.status === 'approved') {
+          toast(data.message, 'success');
+          router.replace(`/thought/${data.thought.id}`);
+        } else {
+          toast(data.message, 'success', 'Wait to be approved by the admin');
+          router.replace(`/home`);
+        }
+      },
+    });
+
+  const { mutate: mutateUpdateThought, isLoading: updateThoughtIsLoading } =
+    useMutation(updateThought, {
+      onError: (error) => onErrorQueryHandler(error, toast),
+      onSuccess(data) {
+        queryClient.invalidateQueries(['thoughts']);
         toast(data.message, 'success');
-        router.replace(`/thought/${data.thought.id}`);
-      } else {
-        toast(data.message, 'success', 'Wait to be approved by the admin');
-        router.replace(`/home`);
-      }
-    },
-  });
+        onCloseEditModal!();
+      },
+    });
+
   function onEnterKeyClicked(
     e: React.KeyboardEvent<HTMLInputElement>,
     tags: string[],
@@ -59,7 +82,15 @@ function AddThoughtForm() {
       initialValues={initialValues}
       onSubmit={(values, formikProps) => {
         formikProps.validateForm();
-        mutate(values);
+        if (editedThought) {
+          mutateUpdateThought({
+            ...editedThought,
+            thoughtContent: values.thoughtContent!,
+            tags: values.tags,
+          });
+          return;
+        }
+        mutateCreateThought(values);
       }}
     >
       {(formik) => {
@@ -128,8 +159,13 @@ function AddThoughtForm() {
               roundedFlatFrom="left"
               withIcon
               gap={3}
-              isLoading={isLoading}
-              isDisabled={!formik.isValid || !formik.dirty || isLoading}
+              isLoading={createThoughtIsLoading || updateThoughtIsLoading}
+              isDisabled={
+                !formik.isValid ||
+                !formik.dirty ||
+                createThoughtIsLoading ||
+                updateThoughtIsLoading
+              }
               styleText={{
                 fontSize: '17px',
               }}
@@ -140,7 +176,7 @@ function AddThoughtForm() {
               mt="10px !important"
               iconSize={28}
             >
-              Publish Thought
+              {editedThought ? 'Edit Thought' : 'Publish Thought'}
             </Button>
           </Box>
         );

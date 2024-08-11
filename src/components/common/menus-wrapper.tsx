@@ -21,7 +21,7 @@ function MenusWrapper({ isCollapsed }: { isCollapsed: boolean }) {
     <>
       <Flex flexDir="column" gap="10px">
         <MenuItem
-          isCollapsed={isCollapsed}
+          // isCollapsed={isCollapsed}
           route="/home"
           menuName="Your Home"
           activeIcon={<GoHomeFill size="35px" />}
@@ -47,8 +47,9 @@ function MenusWrapper({ isCollapsed }: { isCollapsed: boolean }) {
         </Button>
         {isAdmin ? (
           <MenuItem
-            isCollapsed={isCollapsed}
+            // isCollapsed={isCollapsed}
             route="/pending-thoughts"
+            badgeCount={15}
             menuName="Pending Blogs"
             activeIcon={<MdPending size="35px" />}
             nonActiveIcon={<MdOutlinePending size="35px" />}

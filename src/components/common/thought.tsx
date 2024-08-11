@@ -3,6 +3,8 @@ import { Badge, Box, ButtonGroup, Flex, useDisclosure } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { updateThoughtStatus } from 'actions/thought';
 import React, { useState } from 'react';
+import { BiRepost } from 'react-icons/bi';
+import { FaArrowTrendUp } from 'react-icons/fa6';
 
 import { onErrorQueryHandler } from '@/utils/helpers/on-error-query';
 import { useShowToast } from '@/utils/hooks/use-show-toast';
@@ -13,6 +15,7 @@ import { useThemeColor } from '@/utils/theme/theme-colors-provider';
 
 import Button from '../base/button';
 import Modal from '../base/modal';
+// eslint-disable-next-line import/no-cycle
 import ThoughtMenuList from '../thought-menu-list';
 import TagsWrapper from './tags-wrapper';
 import Text from './text';
@@ -33,7 +36,7 @@ function Thought({
   userId,
   thoughtContentConfig,
 }: Props) {
-  const { secondaryColor } = useThemeColor();
+  const { secondaryColor, primaryColor } = useThemeColor();
 
   const toast = useShowToast();
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -65,7 +68,7 @@ function Thought({
       {...thoughtConfig}
     >
       {(thought.userId as ExtendedaUser).id === userId ? (
-        <ThoughtMenuList id={thought.id} />
+        <ThoughtMenuList thought={thought} />
       ) : null}
 
       <Box display={{ base: 'none', md: 'initial' }}>
@@ -214,7 +217,7 @@ function Thought({
             <Button
               withIcon
               iconPosition="left"
-              icon="/icons/views.svg"
+              icon={<FaArrowTrendUp size="25px" color={primaryColor} />}
               p={0}
               styleText={{
                 color: secondaryColor,
@@ -226,7 +229,7 @@ function Thought({
             <Button
               withIcon
               iconPosition="left"
-              icon="/icons/repost.svg"
+              icon={<BiRepost size="30px" color={primaryColor} />}
               p={0}
               bg={{}}
               styleText={{

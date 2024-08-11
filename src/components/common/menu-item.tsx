@@ -1,52 +1,69 @@
 'use client';
 
+import { Box } from '@chakra-ui/react';
 import { usePathname, useRouter } from 'next/navigation';
 import type { ReactElement } from 'react';
 import React from 'react';
 
-import Button from '../base/button';
+import { useThemeColor } from '@/utils/theme/theme-colors-provider';
+
+import Paper from '../base/paper';
+import Text from './text';
 
 interface MenuItemProps {
-  isCollapsed: boolean;
+  // isCollapsed: boolean;
   route: string;
   activeIcon: string | ReactElement;
   nonActiveIcon: string | ReactElement;
   menuName: string;
+  badgeCount?: number;
 }
 
 function MenuItem({
-  isCollapsed,
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  // isCollapsed,
   route,
   menuName,
   activeIcon,
   nonActiveIcon,
+  badgeCount,
 }: MenuItemProps) {
+  const { secondaryColor, primaryColor } = useThemeColor();
   const pathname = usePathname();
   const router = useRouter();
   const isActive = pathname.includes(route);
-
   return (
-    <Button
-      padding="24px"
+    <Paper
+      overflow="hidden"
+      justifyContent="space-between"
       roundedFlatFrom="right"
-      withIcon
-      w={isCollapsed ? '80px' : 'unset'}
-      hideChildren={isCollapsed}
-      icon={isActive ? activeIcon : nonActiveIcon}
-      iconPosition="left"
+      borderWidth="1px"
+      borderColor={secondaryColor}
       onClick={() => {
         router.push(route);
       }}
-      justifyContent="start"
-      iconSize={28}
-      rounded="15px"
-      gap={3}
-      styleText={{
-        fontSize: '17px',
-      }}
+      display="flex"
+      alignItems="center"
+      paddingY="10px"
+      px="20px"
+      borderRadius="15px"
     >
-      {menuName}
-    </Button>
+      <Box display="flex" alignItems="center">
+        {isActive ? activeIcon : nonActiveIcon}
+        <Box w="20px" />
+        <Text>{menuName}</Text>
+      </Box>
+      {badgeCount ? (
+        <Box
+          paddingY="5px"
+          paddingX="10px"
+          borderRadius="10px"
+          bgColor={secondaryColor}
+        >
+          <Text color={primaryColor}>{badgeCount}</Text>
+        </Box>
+      ) : null}
+    </Paper>
   );
 }
 

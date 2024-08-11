@@ -3,6 +3,7 @@ import type * as yup from 'yup';
 
 import axiosExternal from '@/utils/axios-config';
 import type IThought from '@/utils/interfaces/thought';
+import type { ExtendedaUser } from '@/utils/interfaces/user';
 import type AddThoughtSchema from '@/validations/add-tought-form-schema';
 
 export const createThought = async (
@@ -63,12 +64,13 @@ export const updateThoughtStatus = async (
   return res.data;
 };
 
-export const updateThought = async (thought: IThought, id: string) => {
+export const updateThought = async (thought: IThought) => {
   const session = await getSession();
-  console.log(thought);
-
+  // console.log(thought);
+  // eslint-disable-next-line no-param-reassign
+  thought = { ...thought, userId: (thought.userId as ExtendedaUser).id };
   const res = await axiosExternal.put(
-    `thoughts/${id}?userId=${session?.user.id}`,
+    `thoughts/${thought.id}?userId=${session?.user.id}`,
     thought,
     {
       headers: { Authorization: `Barrer ${session?.user.token}` },

@@ -7,6 +7,7 @@ import { useThemeColor } from '@/utils/theme/theme-colors-provider';
 
 import Button from '../base/button';
 import Modal from '../base/modal';
+// eslint-disable-next-line import/no-cycle
 import Thought from '../common/thought';
 
 interface PreviewThougthProps {
@@ -71,6 +72,7 @@ function PreviewThougth({ formik }: PreviewThougthProps) {
             }}
             isAdmin={false}
             thought={{
+              editedAt: null,
               id: '5',
               rejectedDate: new Date(),
               status: 'approved',

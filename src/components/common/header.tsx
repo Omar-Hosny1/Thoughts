@@ -3,6 +3,7 @@
 import { Flex, useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { PiPaperPlaneBold } from 'react-icons/pi';
 
 import Button from '../base/button';
 import Modal from '../base/modal';
@@ -52,7 +53,7 @@ function Header() {
         roundedFlatFrom="right"
         iconPosition="left"
         withIcon
-        icon="/icons/edit.svg"
+        icon={<PiPaperPlaneBold size="30px" />}
         paddingY="22px"
         styleText={{
           display: { base: 'none', md: 'initial' },

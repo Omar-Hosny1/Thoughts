@@ -12,6 +12,7 @@ interface IThought {
   tags: Array<string>;
   publishedDate: Date;
   createdDate: Date;
+  editedAt: Date | null;
 }
 
 export default IThought;
